@@ -1,0 +1,117 @@
+http://jacobsalmela.com/raspberry-pi-webcam-using-mjpg-streamer-over-internet/
+
+Short-and-sweet Version (for advanced users)
+
+lsusb
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install libjpeg8-dev imagemagick libv4l-dev
+sudo ln -s /usr/include/linux/videodev2.h /usr/include/linux/videodev.h
+sudo apt-get install subversion
+cd ~
+svn co https://svn.code.sf.net/p/mjpg-streamer/code/mjpg-streamer/ mjpg-streamer
+cd mjpg-streamer
+make mjpg_streamer input_file.so input_uvc.so output_http.so
+sudo cp mjpg_streamer /usr/local/bin
+sudo cp output_http.so input_file.so input_uvc.so /usr/local/lib/
+sudo cp -R www /usr/local/www
+sudo vi ~/.bashrc
+     export LD_LIBRARY_PATH=/usr/local/lib/
+source ~/.bashrc
+/usr/local/bin/mjpg_streamer -i "input_file.so -f /tmp/stream -n pic.jpg"-o "output_http.so -w /usr/local/www"
+/usr/local/bin/mjpg_streamer -i "/usr/local/lib/input_uvc.so" -o "/usr/local/lib/output_http.so -w /usr/local/www"
+/usr/local/bin/mjpg_streamer -i "/usr/local/lib/input_uvc.so -d /dev/video0 -y -f 30 -r 1280x720 -n" -o "/usr/local/lib/output_http.so -p 8090 -n -w /usr/local/www"
+/usr/local/bin/mjpg_streamer -i "/usr/local/lib/input_uvc.so -d /dev/video0 -y -f 30 -r 320x240 -n" -o "/usr/local/lib/output_http.so -p 8090 -n -w /usr/local/www"
+
+/usr/local/bin/mjpg_streamer -i "/usr/local/lib/input_uvc.so -d /dev/video0 -y -f 60 -r 1280x720 -n -q 100" -o "/usr/local/lib/output_http.so -p 8090 -n -w /usr/local/www"
+/usr/local/bin/mjpg_streamer -i "/usr/local/lib/input_uvc.so -d /dev/video0 -f 15 -r 640x480 -n -q 20" -o "/usr/local/lib/output_http.so -p 8080 -w /usr/local/www"
+
+
+sudo vi /usr/sbin/livestream.sh
+     #!/bin/bash
+     /usr/local/bin/mjpg_streamer -i "/usr/local/lib/input_uvc.so" -o "/usr/local/lib/output_http.so -w /var/www/stream -c username:password"
+sudo chmod 755 /etc/init.d/livestream.sh
+sudo update-rc.d livestream.sh defaults
+
+
+
+
+
+* The choice of webcam
+羅技HD網路攝影機Webcam(C310)
+
+
+Raspberry Pi 筆記(十九)： Webcam 拍照與瀏覽串流媒體
+張貼者： Ceiling 於 下午11:04
+[2014/04/03]
+RaspBerry Pi官方推出直接安裝在 Pi主機的攝影鏡頭，使用軟性排線插在主機板上，而非使用USB介面。考量Webcam的多用途性，我買了相容性比較高的 Logitech Webcam C310，畫質稍好，價格又不會太高。Webcam有兩個用法，一是拍照存檔成jpeg檔，另一個功能是拍攝成影片，前者安裝 fswebcam就可以達成，要作為監視器使用，則需安裝 motion 軟體。
+
+安裝 fswebcam
+$ sudo apt-get install fswebcam
+拍照存成 test.jpg
+$ fswebcam test.jpg
+拍成的照片，畫質不佳，如果要改變畫質，可以在同目錄下建立conf 檔： 
+$ vi .fswebcam.conf 設定檔內容如下：
+device /dev/video0
+input 0
+loop 15
+skip 20
+background
+resolution 640x480
+set brightness=60%
+set contrast=13%
+top-banner
+font /usr/share/fonts/truetype/msttcorefonts/arial.ttf
+title "EvilEye cam-O-tron"
+timestamp "%d-%m-%Y %H:%M:%S (%Z)"
+jpeg 95
+save /home/pi/fswebcam/viewcam.jpg
+
+執行fswebcam結果如下：
+
+
+
+
+安裝影像軟體 Motion
+步驟一：檢查是否有驅動Webcam
+$ sudo lsusb Bus 001 Device 002: ID 0424:9512 Standard Microsystems Corp.
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 001 Device 003: ID 0424:ec00 Standard Microsystems Corp.
+Bus 001 Device 005: ID 046d:081b Logitech, Inc. Webcam C310
+Bus 001 Device 004: ID 0bda:8179 Realtek Semiconductor Corp. 
+
+步驟二：安裝 motion 軟體
+$ sudo apt-get install motion
+步驟三：修改設定
+安裝完成後，修改設定檔 motion.conf ，將DAEMON OFF改為ON，設定為自動啟動motion，Webcam_localhost ON改為 OFF，不從Raspberry Pi連線至Webcam
+$ sudo vi /etc/motion/motion.conf daemon on
+webcam_localhost = off 
+
+# Web連線使用8081 Port
+webcam_port 8081
+# 管理用的連線使用8080 Port
+control_port 8080
+
+#如果要修改畫面大小，可修改
+# 影像寬度 (pixels). 預設: 320
+width 640
+# 影像高度 (pixels). 預設: 240
+height 480
+# 影像品質(百分比). 預設: 50
+webcam_quality 100 
+ 
+ 
+640*480, 畫質75% 畫面
+
+修改 /etc/default/motion 將 start_motion_daemon=no 改為 yes
+$ sudo vi /etc/default/motion start_motion_daemon=yes
+
+步驟四：重新啟動 motion 服務
+$ sudo service motion start
+ 如果要查詢您的 USB WebCam是否支援Raspberry Pi，可以到以下網站查詢：
+http://elinux.org/RPi_USB_Webcams 
+
+剛開始我使用 IE 連線時，會要我下載檔案，然後下載了2-3mb還是無法看到影像，在論壇上找了很久，有網友告知使用 Firefox 或 Safari 就可以看到影像畫面了。可參考：Raspberry Pi Forum : can't view streaming in browser
+
+
+https://wolfpaulus.com/jounal/embedded/raspberrypi_webcam/

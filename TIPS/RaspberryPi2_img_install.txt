@@ -1,0 +1,52 @@
+[Mac OS X]
+To install SD card with the Lakka image:
+
+1. Find the SD card device
+In this case, the SD card is /dev/disk4. DO NOT get this wrong or you may destroy all the data on the wrong disk/card/drive.
+
+#diskutil list
+/dev/disk0
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:      GUID_partition_scheme                        *121.3 GB   disk0
+   1:                        EFI EFI                     209.7 MB   disk0s1
+   2:          Apple_CoreStorage                         121.0 GB   disk0s2
+   3:                 Apple_Boot Boot OS X               134.2 MB   disk0s3
+/dev/disk1
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:      GUID_partition_scheme                        *1.0 TB     disk1
+   1:                        EFI EFI                     209.7 MB   disk1s1
+   2:          Apple_CoreStorage                         999.3 GB   disk1s2
+   3:                 Apple_Boot Recovery HD             650.0 MB   disk1s3
+/dev/disk2
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:                  Apple_HFS Macintosh HD           *1.1 TB     disk2
+                                 Logical Volume on disk0s2, disk1s2
+                                 FF7B1807-7C50-467B-B522-66CD0F69B812
+                                 Unencrypted Fusion Drive
+/dev/disk3
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:      GUID_partition_scheme                        *64.3 GB    disk3
+   1:                        EFI EFI                     209.7 MB   disk3s1
+   2:                  Apple_HFS Jet_drive               63.9 GB    disk3s2
+/dev/disk4
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:      GUID_partition_scheme                        *3.0 TB     disk4
+   1:                        EFI EFI                     209.7 MB   disk4s1
+   2:                  Apple_HFS My Book Studio          3.0 TB     disk4s2
+/dev/disk5
+   #:                       TYPE NAME                    SIZE       IDENTIFIER
+   0:     FDisk_partition_scheme                        *16.6 GB    disk5
+   1:             Windows_FAT_32                         268.4 MB   disk5s1
+   2:                      Linux                         33.6 MB    disk5s2
+   
+2. Umount the disk, NOT eject
+#diskutil unmountDisk /dev/disk5
+
+3. Write the image to the SD card with dd
+#sudo dd if=Lakka-RPi2.arm-devel-20150529173709-r21027-g43f71a8.img of=/dev/disk5 bs=1m
+#sudo dd if=Lakka-RPi2.arm-devel-20150529173709-r21027-g43f71a8.img of=/dev/disk5 bs=4m
+#sudo dd if=/Volumes/My\ Book\ Studio/RaspberryPi/riscos-2015-02-17-RC14.img of=/dev/disk5 bs=4m
+
+
+* To clone sd card into a image file:
+sudo dd if=/dev/rdisk5 of=/Users/mac/Downloads/rasp.img bs=4m

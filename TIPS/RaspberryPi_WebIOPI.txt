@@ -1,0 +1,34 @@
+
+http://atceiling.blogspot.tw/2014/01/raspberry-piwebiopi.html#.VX_opEtkVRQ
+
+開始安裝
+安裝WebIOPi之前，要在Respberry pi安裝 Python 2.7或3.2版，也需手動先安裝GCC及 Python development headers，
+如果使用 Raspbian 2014-01-07版本，Python(2.7.3)及GCC(4.6.3)都已安裝在Image裡了。
+
+安裝Python development headers的方法：
+$ sudo apt-get install python-dev python3-dev
+以下是webiopi的安裝步驟：
+$ wget http://webiopi.googlecode.com/files/WebIOPi-0.6.0.tar.gz
+$ tar xvzf WebIOPi-0.6.0.tar.gz
+$ cd WebIOPi-0.6.0
+$ sudo ./setup.sh
+
+2015.2.21為止，Webiopi仍沒有支援Raspberry Pi 2，最新版本為0.7.1，下載位置如下：
+$ wget http://sourceforge.net/projects/webiopi/files/WebIOPi-0.7.1.tar.gz
+設定為Daemon 
+安裝成功後，可將WebIOPi 設定成Daemon形式，以下指令可啟動或停止WebIOPi ，設定檔放在 /etc/webiopi/config ： 
+$ sudo /etc/init.d/webiopi start 或  $ service webiopi start
+$ sudo /etc/init.d/webiopi stop  或  $ service webiopi stop
+
+重新啟動
+$ sudo /etc/init.d/webiopi restart 或  $ service webiopi restart
+
+於boot時自動啟動與停止
+如果在boot時要啟動WebIOPi，可執行：
+$ sudo update-rc.d webiopi defaults
+如果在boot時要停止WebIOPi，可執行：
+$ sudo update-rc.d webiopi remove
+
+遠端連線WebIOPi
+要用瀏覽器連線至Raspberry Pi的WebIOPi，以我的Pi為例，設定的IP是192.168.1.104，可用8000進行連線：http://192.168.1.104:8000，
+成功後會出現需輸入帳號密碼的畫面，預設帳號是webiopi，密碼是raspberry。

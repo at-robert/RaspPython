@@ -1,0 +1,310 @@
+* The first time install: [STEP 1]
+sudo apt-get update
+sudo apt-get install -y xfonts-wqy ttf-wqy-microhei ttf-wqy-zenhei
+sudo apt-get install -y samba samba-common-bin
+sudo apt-get install -y samba
+sudo apt-get install -y smbclient
+sudo apt-get install -y subversion
+sudo apt-get install -y ntfs-3g
+sudo apt-get install -y audacity
+sudo apt-get install -y lirc
+
+[STEP 2]
+sudo nano /etc/samba/smb.conf
+
+* To add
+
+    security = user
+    
+之後在檔案的最後加入欲分享的目錄：
+[pi]
+  comment=pi's root
+  path=/
+  read only=no
+  guest ok=no
+  browseable=yes
+  create mask=0750
+  directory mask=0750
+  
+$ sudo pdbedit -a pi
+其中 pi 為使用者名稱，輸入完成後系統會要求輸入兩次密碼，可以使用以下指令查詢 samba server 現有的使用者：
+
+$ sudo pdbedit -L
+若有看到剛剛新增的使用者名稱即為新增完成。
+
+最後再重新啟動 samba server：
+$ sudo /etc/init.d/samba restart
+
+[STEP 2.1]
+* To mount the samba folder and then sync the folder ~/Python_Code
+
+[STEP 3]
+sudo nano /etc/modules
+* Add these 2 lines to the bottom of the file
+
+lirc_dev
+lirc_rpi gpio_in_pin=23 gpio_out_pin=18
+
+
+Edit your /boot/config.txt file and add:  
+sudo nano /boot/config.txt
+dtoverlay=lirc-rpi,gpio_in_pin=23,gpio_out_pin=18
+
+
+* To add new Wifi setup
+sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+
+[STEP 4]
+sudo reboot
+
+[STEP 6]
+sudo cp ~/Python_Code/IR/hardware.conf /etc/lirc/hardware.conf
+sudo /etc/init.d/lirc stop
+sudo cp ~/Python_Code/lircd.conf /etc/lirc/lircd.conf
+sudo /etc/init.d/lirc start
+
+
+
+* To login Raspberry 3 over terminal
+#ssh pi@192.168.0.100
+
+* To setup raspberry pi
+sudo raspi-config
+
+* Serial port
+Enable UART
+A new property has been introduced to enable the UART on the Pi. This property will put the core frequency to a minimum, ensuring stability. 
+It’s possible to put the core frequency to maximum as well, assuming the power supply is powerful enough and the Pi 3 is properly cooled (heatsink!).
+
+Enabling UART with minimum core frequency:
+pi@raspberrypi:~ $ sudo nano /boot/config.txt
+
+# Enable UART
+enable_uart=1
+force_turbo=1
+dtoverlay=pi3-miniuart-bt
+
+*To test minicom
+minicom -b 115200 -o -D /dev/ttyAMA0
+minicom -b 921600 -o -D /dev/ttyAMA0
+minicom -b 921600 -o -D /dev/ttyUSB0
+
+// To capture UART data into a log file
+minicom -b 115200 -o -D /dev/ttyAMA0 -C test.log
+
+
+1. install chinese font
+sudo apt-get install -y xfonts-wqy ttf-wqy-microhei ttf-wqy-zenhei
+
+Samba install:
+sudo apt-get update
+sudo apt-get install samba samba-common-bin
+sudo apt-get install samba
+sudo apt-get install smbclient
+
+sudo mount -t cifs -o user=robert.lo,password=000000  //192.168.14.88/robert.lo /mnt/ee3/
+mount -t cifs -o user=robert.lo,password=000000  //192.168.14.88/robert.lo /mnt/hdd/
+
+mount -t cifs -o user=administrator,password=125321  //192.168.14.124/share /Volumes/himedia
+
+sudo mount -t cifs -o user=pi,password=pi  //192.168.0.111/pi /Volumes/pi
+sudo mount -t cifs -o user=pi,password=pi  //10.0.1.6/pi /Volumes/pi
+
+2. To edit a text file. 
+sudo nano .txt
+
+
+To Automount the network shares everytime on boot follow on
+
+1. We need to edit the /etc/fstab file, Run the following command to edit the /etc/fstab file
+
+$sudo nano /etc/fstab
+
+2. Append the following to the /etc/fstab file
+
+For Guest Login
+//WindowsPC/Share1 /mnt/mountfoldername cifs guest 0 0
+
+For Password Protected Login
+//WindowsPC/Share1 /mnt/mountfoldername cifs username=yourusername,password=yourpassword 0 0
+
+For Share names with a space
+
+Check the References link
+
+3. Save the File and run the more command to check if the file is updates
+$more /etc/fstab
+
+Returns something like
+proc /proc proc defaults 0 0
+/dev/mmcblk0p1 /boot vfat defaults 0 0
+/dev/mmcblk0p2 / ext4 defaults,noatime 0 0
+# a swapfile is not a swap partition, so no using swapon|off from here on, use dphys-swapfile swap[on|off] for that
+//WindowsPC/Share1 /mnt/mountfoldername cifs guest 0 0
+
+4. Now Reboot and check that your network share is auto mounted with the following command
+$ df -h
+
+Returns
+
+
+*Samba server
+如何設定 Raspberry Pi 的 Samba Server ? 
+　　農曆年過後開工第一件事就是設定 Raspberry Pi 上的 samba server，記錄這篇時使用的是 2013-02-09-wheezy-raspbian.img 這個映像檔，裡面並未安裝 samba server 套件，因此第一件事就是先安裝 samba server 再說囉，指令如下：
+
+$ sudo apt-get install samba
+ 安裝好之後應該能在一大串字中看到下面的一行訊息，代表已安裝成功並且啟動服務了：
+
+[ ok ] Starting Samba daemons: nmbd smbd.
+然後切換目錄到 samba server 的設定檔所在的位置，並開啟 samba server 的設定檔 smb.conf 來編輯：
+
+$ cd /etc/samba
+$ sudo nano /etc/samba/smb.conf
+在檔案中找到：
+
+#   security = user
+
+把該行的註解去掉改成：
+
+    security = user
+
+之後在檔案的最後加入欲分享的目錄：
+
+[Share]
+comment = Share_Folder
+path = /home/pi
+browseable = Yes
+writable = Yes
+public = No
+
+[pi]
+  comment=pi's root
+  path=/
+  read only=no
+  guest ok=no
+  browseable=yes
+  create mask=0750
+  directory mask=0750
+
+其中 path 代表的是欲分享的目錄、browseable 為是否可見(註1.)、public 為是否"不需密碼"即可使用該目錄、writable 為是否可寫入，輸入完成後按下 Ctrl+O 存檔，再按下 Ctrl+X 離開 nano 編輯器。
+
+執行以下步驟來新增 samba server 的使用者名稱：
+
+$ sudo pdbedit -a pi
+其中 pi 為使用者名稱，輸入完成後系統會要求輸入兩次密碼，可以使用以下指令查詢 samba server 現有的使用者：
+
+$ sudo pdbedit -L
+若有看到剛剛新增的使用者名稱即為新增完成。
+
+最後再重新啟動 samba server：
+
+#$ sudo service samba restart
+$ sudo /etc/init.d/samba restart
+到此就完成 Raspberry Pi 的 samba server 設定囉。
+
+
+註1.Linux 的 samba server 服務若有啟用，則從 Windows 網路芳鄰即可看到該主機，而開啟該主機後則可看到 browseable = Yes 的分享目錄，反之則看不到。 
+
+* Login: pi , password: pi
+*samba ; login:pi, password:pi
+
+* To setup webcam
+lsusb
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install libjpeg8-dev imagemagick libv4l-dev
+sudo ln -s /usr/include/linux/videodev2.h /usr/include/linux/videodev.h
+sudo apt-get install subversion
+cd ~
+svn co https://svn.code.sf.net/p/mjpg-streamer/code/mjpg-streamer/ mjpg-streamer
+cd mjpg-streamer
+make mjpg_streamer input_file.so input_uvc.so output_http.so
+sudo cp mjpg_streamer /usr/local/bin
+sudo cp output_http.so input_file.so input_uvc.so /usr/local/lib/
+sudo cp -R www /usr/local/www
+sudo vi ~/.bashrc
+     export LD_LIBRARY_PATH=/usr/local/lib/
+source ~/.bashrc
+/usr/local/bin/mjpg_streamer -i "input_file.so -f /tmp/stream -n pic.jpg"-o "output_http.so -w /usr/local/www"
+sudo vi /usr/sbin/livestream.sh
+     #!/bin/bash
+     /usr/local/bin/mjpg_streamer -i "/usr/local/lib/input_uvc.so" -o "/usr/local/lib/output_http.so -w /var/www/stream -c username:password"
+sudo chmod 755 /etc/init.d/livestream.sh
+sudo update-rc.d livestream.sh defaults
+
+* Space isn't enough
+[Raspberry Pi]空間不足-擴展你的SD卡
+今天我在pi上試著要安裝java的時候發生了一些空間不夠的問題，我想我買8G的SD卡怎麼會這麼快就不夠了，後來爬了點文發現，原來系統預設只會約保留2G給我們使用，剩下的空間需要在剛灌好作業系統時的畫面中設定，所以我們輸入sudo raspi-config
+然後選取expand-rootf就可以使用全部空間了。
+
+* To install mediatomb
+sudo apt-get install mediatomb
+* NTFS drive
+sudo apt-get install ntfs-3g
+sudo mount -t ntfs-3g /dev/sda1 /mnt/usb
+* Audacity
+sudo apt-get update
+sudo apt-get install audacity
+
+
+Raspberry pi 開機自動執行script
+
+$sudo nano /etc/xdg/lxsession/LXDE/autostart
+sudo nano ~/.config/lxsession/LXDE-pi/autostart
+
+sudo cp ~/Python_Code/autostart ~/.config/lxsession/LXDE-pi/autostart
+在最後加入
+@sh /home/pi/xxx/.../xxxx/xxx.sh
+Ctrl + X + Enter
+
+如果是python
+@python /home/pi/xxx/.../xxxx/xxx.py
+或是
+@/usr/bin/python /home/pi/xxx/.../xxxx/xxx.py
+@/usr/bin/python /home/pi/Python_Code/MP3/mp3_play.py /media/pi/SANDISK/Music/MP3/
+
+*GPIO
+
+import RPi.GPIO as GPIO ## Import GPIO library
+GPIO.setmode(GPIO.BOARD) ## Use board pin numbering
+GPIO.setup(8, GPIO.OUT) ## Setup GPIO Pin 8 to OUT
+GPIO.output(8,False) ## Turn on GPIO pin 8
+
+GPIO.output(8,True) ## Turn on GPIO pin 8
+
+#Relay control test
+
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(37, GPIO.OUT)
+GPIO.setup(38, GPIO.OUT)
+GPIO.setup(40, GPIO.OUT)
+
+GPIO.output(37,False)
+GPIO.output(38,False)
+GPIO.output(40,False)
+
+GPIO.output(37,True)
+GPIO.output(38,True)
+GPIO.output(40,True)
+
+
+* Wifi setup
+sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+cat /etc/wpa_supplicant/wpa_supplicant.conf
+
+* BlueTooth UART
+screen /dev/cu.HC-05-DevB 115200
+
+omxplayer -o local /media/pi/SANDISK/Music/MP3/WontGoHomeWithoutYou_Maroon5.mp3
+
+[Git Env]
+…or create a new repository on the command line
+git init
+git commit -m "Raspberry Pi Python first commit"
+git remote add origin https://github.com/at-robert/RaspPython.git
+git push -u origin master
+
+…or push an existing repository from the command line
+git remote add origin https://github.com/at-robert/RaspPython.git
+git push -u origin master

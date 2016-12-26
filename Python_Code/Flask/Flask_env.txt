@@ -1,0 +1,7 @@
+http://randomtutor.blogspot.tw/2013/01/python-web-application-on-raspberrypi.html
+
+Quick start:
+http://flask.pocoo.org/docs/0.11/quickstart/
+http://www.tutorialspoint.com/flask/flask_quick_guide.htm
+
+1. Install

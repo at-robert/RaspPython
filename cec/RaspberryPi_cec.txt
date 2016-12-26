@@ -1,0 +1,13 @@
+https://www.raspberrypi.org/forums/viewtopic.php?f=35&t=15593&p=158409&hilit=cec_client
+
+Examples:
+root@XBian:~# cat hdmi3.sh
+#!/bin/sh
+echo "tx 4f 82 13 00" | cec-client -s
+
+root@XBian:~# cat hdmi3.py
+import os
+os.system('sh /root/hdmi3.sh')
+
+* Install
+sudo apt-get install cec-client

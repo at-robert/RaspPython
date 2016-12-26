@@ -1,0 +1,6 @@
+@lxpanel --profile LXDE-pi
+@pcmanfm --desktop --profile LXDE-pi
+@xscreensaver -no-splash
+@sh /home/pi/Python_Code/hello_ir.sh
+@python /home/pi/Python_Code/Flask/cmd.py
+@python /home/pi/Python_Code/MP3/mp3_play.py /media/pi/SANDISK/Music/MP3/

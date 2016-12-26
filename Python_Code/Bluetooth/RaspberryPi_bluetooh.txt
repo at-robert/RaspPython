@@ -1,0 +1,45 @@
+http://www.techradar.com/how-to/computing/how-to-get-wi-fi-and-bluetooth-working-on-raspberry-pi-3-1316938
+
+sudo apt-get dist-upgrade
+sudo apt-get install raspberrypi-sys-mods
+sudo apt-get install bluetooth bluez blueman
+
+
+http://www.cnet.com/how-to/how-to-setup-bluetooth-on-a-raspberry-pi-3/
+
+From the Raspberry Pi desktop, open a new Terminal window.
+Type sudo bluetoothctl then press enter and input the administrator password (the default password is raspberry).
+# sudo bluetoothctl
+
+Next, enter agent on and press enter. Then type default-agent and press enter.
+# agent on
+# default-agent
+
+Type scan on and press enter one more time. 
+# scan on
+
+The unique addresses of all the Bluetooth devices around the Raspberry Pi will appear and look something like an alphanumeric XX:XX:XX:XX:XX:XX. 
+If you make the device you want to pair discoverable (or put it into pairing mode), the device nickname may appear to the right of the address. 
+If not, you will have to do a little trial and error or waiting to find the correct device.
+To pair the device, type pair [device Bluetooth address]. The command will look something like pair XX:XX:XX:XX:XX:XX.
+
+sudo bluetoothctl
+agent on
+default-agent
+scan on
+
+
+[Another way to check RSSI]
+
+1. 
+hcitool scan
+
+return:
+Scanning ...
+	B8:53:AC:19:F1:51	Robert' IPHONE
+	
+2. 
+sudo rfcomm connect 0 B8:53:AC:19:F1:51 10 >/dev/null &
+
+3.
+hcitool rssi B8:53:AC:19:F1:51

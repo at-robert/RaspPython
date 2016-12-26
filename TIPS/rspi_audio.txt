@@ -1,0 +1,124 @@
+Raspberry PI – getting audio working
+Modified on February 9, 2013 by Rolf van Gelder 
+How to get the audio working on your Raspberry PI?
+
+You have to install three packages:
+
+■The ALSA utilities:
+sudo apt-get install alsa-utils
+
+■MP3 tools:
+sudo apt-get install mpg321
+■WAV to MP3 conversion tool:
+sudo apt-get install lame
+Load the sound driver:
+
+■sudo modprobe snd-bcm2835
+To check if the driver is loaded you can type:
+
+■sudo lsmod | grep 2835
+Select the output device for sound (0=auto, 1=analog, 2=HDMI):
+
+■sudo amixer cset numid=3 2
+Test the installation:
+
+■aplay /usr/share/sounds/alsa/Front_Center.wav
+■speaker-test -t sine -f 440 -c 2 -s 1
+■mpg321 “Mannish Boy.mp3″
+It you get the following error message:
+
+■ALSA lib pcm.c:2217:(snd_pcm_open_noupdate) Unknown PCM cards.pcm.front
+Edit the file /usr/share/alsa/alsa.conf:
+
+■sudo nano /usr/share/alsa/alsa.conf
+■change the line “pcm.front cards.pcm.front” to “pcm.front cards.pcm.default”
+If you are using HDMI and cannot hear any audio at all change the following PI configuration setting:
+
+■edit the RasPI configuration file:
+sudo nano /boot/config.txt
+■uncomment the line:
+hdmi_drive=2
+■save the file and reboot the PI
+Resources:
+
+■http://jeffskinnerbox.wordpress.com/2012/11/15/getting-audio-out-working-on-the-raspberry-pi/
+■http://alexpb.com/notes/articles/2012/11/14/error-when-playing-audio-on-raspbian-on-a-raspberry-pi/
+■http://elinux.org/R-Pi_Troubleshooting
+
+
+http://atceiling.blogspot.tw/2014/02/raspberry-pi.html
+
+Raspberry Pi 筆記(十一)：音效設定與播放器 
+張貼者： Ceiling 於 下午11:06 
+[2014/02/20] 
+Raspberry Pi 有個可外接喇叭或耳機的3.5mm插孔，可以在x-window的環境下，使用圖形介面播放音樂，一般較不為人知的是文字介面也有播放程式，本單元就來介紹 Pi 的音樂操作指令。
+
+安裝音效模組
+Linux核心需安裝 snd_bcm2835音效模組，才能輸出音效，可用lsmod指令察看是否已安裝： 
+$ sudo lsmod | grep snd_bcm2835
+執行後出現以下畫面： 
+
+
+
+或執行以下指令，可看到音效卡型號為何?
+$ sudo cat /proc/asound/cards
+如果沒有安裝 snd_bcm2835，可執行下列指令安裝模組：
+$ sudo modprobe snd_bcm2835
+調整音量
+我使用 putty 透過ssh登入 Pi，在 Console 模式下，如要調整音量可以執行下列指令：
+$ alsamixer
+執行後會出現文字圖形介面，可以按方向鍵 ↑↓來調整音量大小。
+
+
+ 
+
+調整音效輸出
+Raspberry Pi有兩個音效輸出的地方，一個是3.5mm插孔，另一個是透過HDMI輸出，如要調整音效輸出設定，可用amixer指令：
+$ amixer cset numid=3 n
+n = 0 表示自動選擇音效輸出位置，如果有接HDMI優先從HDMI輸出
+n = 1 透過analog從傳統的 3.5 mm耳機孔輸出
+n = 2 透過HDMI輸出
+
+測試音效
+執行下列指令來測試音效輸出是否正常：
+$ speaker -test -c2 -t wav 
+可以聽到一個女生說Left, Right, 耳機或喇叭只有左邊或右邊有聲音。
+
+文字介面下播放mp3 → omxplayer
+如要在命令列播放mp3，可安裝 omxplayer，以下是安裝指令：
+$ sudo apt-get -y install omxplayer
+播放mp3檔案
+$ omxplayer Eggs.mp3
+文字介面下播放mp3 → moc (music on console)
+$ apt-get install moc 
+執行 moc 程式
+$ mocp出現以下文字視窗
+
+ 
+
+
+如果操作mocp程式有困難，可按下 h ，會出現按鍵說明，以下摘錄常用按鍵：
+
+q                 暫停程式
+Q                結束程式
+ENTER      開始播放這個檔案
+n                 播放下一首歌
+b                 播放上一首歌
+s                  停止播放
+p / 空白鍵   暫停
+<                 音量減少 1%
+>                 音量增加 1%
+
+x-win 播放 mp3
+在 Raspberry Pi 的功能選單中有一個 QjackCtl 的播放程式，可從開始選單 → Sound & Video → QjackCtl，即可開啟以下畫面，或是在終端機命令列輸入以下指令：
+$ qjackctl
+出現以下畫面：
+
+ 
+
+
+
+參考資料
+● Raspberry Pi Spy
+● Hsian Studio - Freebsd Music On Console (MOC) 
+● Raspberry Pi for Secret Agents
