@@ -58,9 +58,9 @@ sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
 sudo reboot
 
 [STEP 6]
-sudo cp ~/Python_Code/IR/hardware.conf /etc/lirc/hardware.conf
+sudo cp ~/RaspPython/Python_Code/IR/hardware.conf /etc/lirc/hardware.conf
 sudo /etc/init.d/lirc stop
-sudo cp ~/Python_Code/lircd.conf /etc/lirc/lircd.conf
+sudo cp ~/RaspPython/Python_Code/lircd.conf /etc/lirc/lircd.conf
 sudo /etc/init.d/lirc start
 
 
@@ -252,7 +252,7 @@ Raspberry pi 開機自動執行script
 $sudo nano /etc/xdg/lxsession/LXDE/autostart
 sudo nano ~/.config/lxsession/LXDE-pi/autostart
 
-sudo cp ~/Python_Code/autostart ~/.config/lxsession/LXDE-pi/autostart
+sudo cp ~/RaspPython/Python_Code/autostart ~/.config/lxsession/LXDE-pi/autostart
 在最後加入
 @sh /home/pi/xxx/.../xxxx/xxx.sh
 Ctrl + X + Enter
