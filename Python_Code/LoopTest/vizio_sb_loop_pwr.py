@@ -12,7 +12,7 @@ def vizio_SB_2820_Loop():
     print "Start vizio sound bar 2820 Power On/Off loop test"
 
     while 1:
-        time.sleep(4)
+        time.sleep(3)
         os.system('irsend SEND_ONCE VIZIO_SB KEY_POWER')
         count = count + 1
         print "LOOP COUNT = %d" %(count)
