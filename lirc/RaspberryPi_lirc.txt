@@ -64,21 +64,21 @@ Here were the commands that I ran to generate a remote configuration file:
 sudo /etc/init.d/lirc stop
 
 # Create a new remote control configuration file (using /dev/lirc0) and save the output to ~/lircd.conf
-irrecord -d /dev/lirc0 ~/lircd_HiMEDIA.conf
+irrecord -d /dev/lirc0 ~/lircd_TWN_TV.conf
 
 
 # Make a backup of the original lircd.conf file
 sudo mv /etc/lirc/lircd.conf /etc/lirc/lircd_original.conf
 
 # Copy over your new configuration file
-sudo cp ~/Python_Code/lircd.conf /etc/lirc/lircd.conf
+sudo cp ~/RaspPython/Python_Code/lircd.conf /etc/lirc/lircd.conf
 
 # Start up lirc again
 sudo /etc/init.d/lirc start
 sudo /etc/init.d/lirc restart
 
 sudo /etc/init.d/lirc stop
-sudo cp ~/Python_Code/lircd.conf /etc/lirc/lircd.conf
+sudo cp ~/RaspPython/Python_Code/lircd.conf /etc/lirc/lircd.conf
 sudo /etc/init.d/lirc start
 
 
@@ -104,6 +104,7 @@ irsend LIST LG_TV ""
 irsend LIST HiMEDIA ""
 irsend LIST DB0204 ""
 irsend LIST VIZIO_TV ""
+irsend LIST TWN_TV ""
 
 # Send the KEY_POWER command once
 irsend SEND_ONCE Dyson KEY_UP
@@ -115,6 +116,7 @@ irsend SEND_ONCE LG_TV KEY_VOLUMEDOWN
 irsend SEND_ONCE LG_TV KEY_A
 irsend SEND_ONCE VIZIO_SB KEY_POWER
 irsend SEND_ONCE VIZIO_SB KEY_POWER_OFF
+irsend SEND_ONCE VIZIO_SB KEY_POWER_OFF1
 irsend SEND_ONCE DB0204 KEY_POWER
 irsend SEND_ONCE DB0204 KEY_DOWN
 irsend SEND_ONCE VIZIO_TV KEY_POWER
@@ -129,7 +131,7 @@ irsend SEND_ONCE HiMEDIA KEY_ENTER
 irsend SEND_ONCE HiMEDIA KEY_RIGHT
 irsend SEND_ONCE HiMEDIA KEY_ENTER
 
-
+irsend SEND_ONCE TWN_TV KEY_PIP
 irsend SEND_ONCE VIZIO_SB KEY_MUTE
 irsend SEND_ONCE VIZIO_SB KEY_RIGHT
 
