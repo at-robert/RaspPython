@@ -36,7 +36,9 @@ $ sudo pdbedit -L
 $ sudo /etc/init.d/samba restart
 
 [STEP 2.1]
-* To mount the samba folder and then sync the folder ~/Python_Code
+* To sync ~/RaspPython by running
+cd ~
+git clone https://github.com/at-robert/RaspPython.git
 
 [STEP 3]
 sudo nano /etc/modules
@@ -63,6 +65,8 @@ sudo /etc/init.d/lirc stop
 sudo cp ~/RaspPython/Python_Code/lircd.conf /etc/lirc/lircd.conf
 sudo /etc/init.d/lirc start
 
+[STEP 7] (Optional when you need to setup auto start items)
+sudo cp ~/RaspPython/Python_Code/autostart ~/.config/lxsession/LXDE-pi/autostart
 
 
 * To login Raspberry 3 over terminal
