@@ -288,6 +288,14 @@ GPIO.output(37,True)
 GPIO.output(38,True)
 GPIO.output(40,True)
 
+[GPIO Input]
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BOARD)
+
+#pin 15 (GPIO 22)
+GPIO.setup(15, GPIO.IN)
+input = GPIO.input(15)
+print input
 
 * Wifi setup
 sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
