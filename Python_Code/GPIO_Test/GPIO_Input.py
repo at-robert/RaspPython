@@ -9,12 +9,13 @@ import RPi.GPIO as GPIO
 #----------------------------------------------------------------------
 def GPIO_IntDet(int_num):
 
-    print "GPIO input pin = %d" %(int_num)
-    GPIO.setup(int_num, GPIO.IN)
+    GPIO.setmode(GPIO.BOARD)
+    print "GPIO input pin = %d" %(int(int_num))
+    GPIO.setup(int(int_num), GPIO.IN)
 
     while 1:
         time.sleep(1)
-        input_val = GPIO.input(int_num)
+        input_val = GPIO.input(int(int_num))
         print " GPIO PIN = %d" %(input_val)
 
 #----------------------------------------------------------------------
