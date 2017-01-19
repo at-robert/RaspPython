@@ -1,0 +1,105 @@
+-Raspberry Pi
+
+-A TF card burned with the Raspbian
+-5V DC power adapter, 2A or above with micro USB interface
+-HDMI interface display (or VGA interface display with a VGA to HDMI adaptor)
+-USB mouse and keyboard
+-Speakers or headphones in the standard of 3.5mm
+
+-USB mini microphone
+
+Steps
+Step1: Ready to start the Raspberry Pi and insert the mini microphone module as well as audio/headphones.
+
+Open the Terminal of the Raspberry Pi
+Mddk2.jpg
+
+Step2: Check the USB connection
+Enter the following commands to check the usb connection
+
+lsusb
+You can see the USB devices connected by the Raspberry Pi
+
+Mddk3.jpg
+
+“C-Media Electronics, Inc. CM108 Audio Controller” is the USB mini microphone. Check the microphone with arecord
+
+arecord -l
+
+(“l” is lower “L”). You will see the recording device：
+
+Ddmk4.jpg
+
+You will see device card1, device0. Use plughw:1,0 to represent.
+
+Mk5.jpg
+
+Step3: Records testing
+
+Record for three seconds and play it
+
+arecord -D plughw:1,0 -d 3.0 test.wav && aplay test.wav
+
+Mk6.jpg
+
+Here we use arecord to record and aplay to play;“-D” to choose the device and “-d” to set the recording time
+
+You can input “arecord --help” and “aplay --help” for details.
+
+If the sound is low, you can adjust the gain of the microphone.
+
+Step4: Adjust the gain of the microphone
+
+Open the Audio Device Settings: Open the Menu in the top left corner, and go through Preferences => Audio Device Settings.
+
+Mk7.jpg
+
+Choose USB PnP Sound Device(Alsa mixer)in the Sound card column. It there appears No controls visible, open the Select Controls in the lower left corner.
+
+Mk8.jpg
+
+Tick the Microphone in the Select Controls page and click Close in the lower right corner.
+
+Mk9.jpg
+
+At this time, No controls visible in the middle of the Audio Device Settings page becomes Capture.
+
+Adjust the slider below to adjust the gain of the microphone.
+
+Mk10.jpg
+
+After adjusting, record again:
+
+arecord -D plughw:1,0 -d 3.0 test.wav && aplay test.wav
+
+
+
+[PyAudio]
+
+[Install]
+sudo apt-get install python-dev
+sudo apt-get install python-pyaudio
+sudo apt-get install python-numpy
+sudo apt-get install python-SoundAnalyse
+sudo pip install SoundAnalyse
+
+
+[Example Code]
+stream = pyaud.open( format = pyaudio.paInt16, channels = 1, rate = 44100, input_device_index = 2, input = True)
+
+while True: # Read raw microphone data 
+rawsamps = stream.read(1024) # Convert raw data to NumPy array 
+samps = numpy.fromstring(rawsamps, dtype=numpy.int16) # Show the volume and pitch 
+print analyse.loudness(samps), analyse.musical_detect_pitch(samps)
+
+
+
+[Install from source code for PyAudio]
+# taken from http://raspberrypihell.blogspot.pt/2013/07/pyaudio-and-how-to-install.html
+
+sudo apt-get install git  
+sudo git clone http://people.csail.mit.edu/hubert/git/pyaudio.git  
+sudo apt-get install libportaudio0 libportaudio2 libportaudiocpp0 portaudio19-dev  
+sudo apt-get install python-dev  
+cd pyaudio  
+sudo python setup.py install
