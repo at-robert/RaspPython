@@ -80,8 +80,10 @@ arecord -D plughw:1,0 -d 3.0 test.wav && aplay test.wav
 sudo apt-get install python-dev
 sudo apt-get install python-pyaudio
 sudo apt-get install python-numpy
-sudo apt-get install python-SoundAnalyse
 sudo pip install SoundAnalyse
+
+sudo apt-get install python-SoundAnalyse
+
 
 
 [Example Code]

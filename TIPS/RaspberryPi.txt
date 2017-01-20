@@ -8,6 +8,11 @@ sudo apt-get install -y subversion
 sudo apt-get install -y ntfs-3g
 sudo apt-get install -y audacity
 sudo apt-get install -y lirc
+sudo apt-get install -y python-dev
+sudo apt-get install -y python-pyaudio
+sudo apt-get install -y python-numpy
+sudo pip install SoundAnalyse
+
 
 [STEP 2]
 sudo nano /etc/samba/smb.conf
