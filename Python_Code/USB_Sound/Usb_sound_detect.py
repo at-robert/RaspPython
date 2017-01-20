@@ -16,7 +16,10 @@ stream = pyaud.open(
 
 while True:
     # Read raw microphone data
-    rawsamps = stream.read(1024)
+    try:
+    	rawsamps = stream.read(1024)
+    except IOError:
+        pass
     # Convert raw data to NumPy array
     samps = numpy.fromstring(rawsamps, dtype=numpy.int16)
     # Show the volume and pitch

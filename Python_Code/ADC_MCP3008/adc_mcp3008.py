@@ -6,7 +6,7 @@ import os
 light_ch = 0
 temp_ch  = 1
 # Define delay between readings
-delay = 3
+delay = 1
 
 # Read SPI data from MCP3008, Channel must be an integer 0-7
 def ReadADC(ch):
