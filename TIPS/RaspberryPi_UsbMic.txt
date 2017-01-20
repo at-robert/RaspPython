@@ -84,7 +84,19 @@ sudo pip install SoundAnalyse
 
 sudo apt-get install python-SoundAnalyse
 
+[external USB sound card Setup]
+Installation
+All you need to do is update the sound card index in the Alsa configuration. Open alsa.conf with
 
+sudo nano /usr/share/alsa/alsa.conf
+then replace
+*
+defaults.ctl.card 0
+defaults.pcm.card 0
+with
+*
+defaults.ctl.card 1
+defaults.pcm.card 1
 
 [Example Code]
 stream = pyaud.open( format = pyaudio.paInt16, channels = 1, rate = 44100, input_device_index = 2, input = True)
