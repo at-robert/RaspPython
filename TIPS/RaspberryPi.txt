@@ -40,10 +40,21 @@ $ sudo pdbedit -L
 最後再重新啟動 samba server：
 $ sudo /etc/init.d/samba restart
 
+[To generate SSH key]
+cd ~
+mkdir .ssh
+cd ~/.ssh 
+ssh-keygen -t rsa -b 4096 -C "atttrobert@gmail.com"
+
+cat id_rsa.pub
+[Paste public into Github web page]
+
 [STEP 2.1]
 * To sync ~/RaspPython by running
 cd ~
-git clone https://github.com/at-robert/RaspPython.git
+git clone git@github.com:at-robert/RaspPython.git
+
+#git clone https://github.com/at-robert/RaspPython.git
 
 [STEP 3]
 sudo nano /etc/modules
