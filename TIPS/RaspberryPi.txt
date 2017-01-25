@@ -11,7 +11,11 @@ sudo apt-get install -y lirc
 sudo apt-get install -y python-dev
 sudo apt-get install -y python-pyaudio
 sudo apt-get install -y python-numpy
+sudo apt-get install -y python-qt4
 sudo apt-get install -y python-qwt5-qt4
+sudo apt-get install -y python-matplotlib
+sudo apt-get install -y python-scipy
+
 sudo pip install SoundAnalyse
 
 
