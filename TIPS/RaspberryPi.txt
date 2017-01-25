@@ -11,6 +11,7 @@ sudo apt-get install -y lirc
 sudo apt-get install -y python-dev
 sudo apt-get install -y python-pyaudio
 sudo apt-get install -y python-numpy
+sudo apt-get install -y python-qwt5-qt4
 sudo pip install SoundAnalyse
 
 
@@ -324,7 +325,24 @@ cat /etc/wpa_supplicant/wpa_supplicant.conf
 * BlueTooth UART
 screen /dev/cu.HC-05-DevB 115200
 
+[Music play]
 omxplayer -o local /media/pi/SANDISK/Music/MP3/WontGoHomeWithoutYou_Maroon5.mp3
+
+#External USB sound card
+aplay ~/Music/DingTone.wav -D sysdefault:CARD=1
+
+#local AUX and HDMI
+aplay ~/Music/DingTone.wav -D sysdefault:CARD=0
+
+pi@rasp3_rob_x:/media/pi/KINGSTON_S $ aplay '丁噹_好難得【三立「螺絲小姐要出嫁」片尾曲】 [高質量].wav' -D sysdefault:CARD=1
+Playing WAVE '丁噹_好難得【三立「螺絲小姐要出嫁」片尾曲】 [高質量].wav' : Signed 16 bit Little Endian, Rate 44100 Hz, Stereo
+
+pi@rasp3_rob_x:/media/pi/KINGSTON_S $ aplay '丁噹_好難得【三立「螺絲小姐要出嫁」片尾曲】 [高質量].wav' -D sysdefault:CARD=0
+Playing WAVE '丁噹_好難得【三立「螺絲小姐要出嫁」片尾曲】 [高質量].wav' : Signed 16 bit Little Endian, Rate 44100 Hz, Stereo
+
+[Video Play]
+# passthrough output
+omxplayer -p Pink_ac3.ac3
 
 [Git Env]
 …or create a new repository on the command line

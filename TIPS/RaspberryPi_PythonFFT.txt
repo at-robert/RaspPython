@@ -1,0 +1,6 @@
+http://www.swharden.com/wp/2013-05-09-realtime-fft-audio-visualization-with-python/ 
+
+
+[Dependency]
+#Raspberry Pi
+sudo apt-get install python-qwt5-qt4

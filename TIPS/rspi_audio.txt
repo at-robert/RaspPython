@@ -122,3 +122,29 @@ $ qjackctl
 ● Raspberry Pi Spy
 ● Hsian Studio - Freebsd Music On Console (MOC) 
 ● Raspberry Pi for Secret Agents
+
+[Play from the external USB sound card]
+pi@rasp3_rob_x:/media/pi/KINGSTON_S $ aplay -l
+**** List of PLAYBACK Hardware Devices ****
+card 0: ALSA [bcm2835 ALSA], device 0: bcm2835 ALSA [bcm2835 ALSA]
+  Subdevices: 8/8
+  Subdevice #0: subdevice #0
+  Subdevice #1: subdevice #1
+  Subdevice #2: subdevice #2
+  Subdevice #3: subdevice #3
+  Subdevice #4: subdevice #4
+  Subdevice #5: subdevice #5
+  Subdevice #6: subdevice #6
+  Subdevice #7: subdevice #7
+card 0: ALSA [bcm2835 ALSA], device 1: bcm2835 ALSA [bcm2835 IEC958/HDMI]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+card 1: Device [USB Audio Device], device 0: USB Audio [USB Audio]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+
+pi@rasp3_rob_x:/media/pi/KINGSTON_S $ aplay '丁噹_好難得【三立「螺絲小姐要出嫁」片尾曲】 [高質量].wav' -D sysdefault:CARD=1
+Playing WAVE '丁噹_好難得【三立「螺絲小姐要出嫁」片尾曲】 [高質量].wav' : Signed 16 bit Little Endian, Rate 44100 Hz, Stereo
+
+pi@rasp3_rob_x:/media/pi/KINGSTON_S $ aplay '丁噹_好難得【三立「螺絲小姐要出嫁」片尾曲】 [高質量].wav' -D sysdefault:CARD=0
+Playing WAVE '丁噹_好難得【三立「螺絲小姐要出嫁」片尾曲】 [高質量].wav' : Signed 16 bit Little Endian, Rate 44100 Hz, Stereo
