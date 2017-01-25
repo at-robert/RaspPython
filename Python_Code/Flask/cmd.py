@@ -19,6 +19,7 @@ def index(cmd=None):
         print 'left'
     return render_template('cmd.html',cmd=cmd)
 
+# Usage: 192.168.0.112:5000/LG_TV
 @app.route('/LG_TV')
 @app.route('/LG_TV/<cmd>')
 def index_lg(cmd=None):
@@ -44,6 +45,7 @@ def index_lg(cmd=None):
         print 'LG_TV lefts'
     return render_template('LG_TV.html',cmd=cmd)
     
+# Usage: 192.168.0.112:5000/DB0204
 @app.route('/DB0204')
 @app.route('/DB0204/<cmd>')
 def index_db0204(cmd=None):
