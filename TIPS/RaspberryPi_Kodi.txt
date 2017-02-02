@@ -68,38 +68,49 @@ http://kodi.wiki/view/List_of_built-in_functions
 kodi-send --action="PlayerControl(Play)"
 
 kodi-send --action="Action(Info)"
+kodi-send --action="Action(Enter)"
+
+kodi-send --action="Action(Select)"
+
+kodi-send --action="Action(PreviousMenu)"
 
 DD5.1 Test - 
 kodi-send --action="PlayerControl(Stop)"
 kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Video/鷸Piper_DD51_DTS/Piper.2016.720p.BluRay.DD5.1.x264-decibeL[EtHD].mkv)"
 
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Video/星際爭霸戰 浩瀚無垠_AC3/Star.Trek.Beyond.2016.720p.WEB-DL.XviD.AC3-FGT.avi)"
+
 DTS5.1 Test -
 kodi-send --action="PlayerControl(Stop)"
 kodi-send --action="PlayerControl(RepeatOne)"
 kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Video/鷸Piper_DD51_DTS/Piper.2016.PROPER.BluRay.REMUX.AVC.DTS.HD-MA.7.1-EPSiLON.mkv)"
-kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Video/星際爭霸戰 浩瀚無垠_AC3/Star.Trek.Beyond.2016.720p.WEB-DL.XviD.AC3-FGT.avi)"
+
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Video/DTS_51/dts_animated_logo_core_1080p-thedigitaltheater.mkv)"
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Video/DTS_51/dts_living_world_of_audio_v2_short_core_1080p-thedigitaltheater.mkv)"
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Video/DTS_51/dts_orchestra_long_core_1080p-thedigitaltheater.mkv)"
+
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Video/馬可白_DTS/Macbeth 2015 1080p BluRay x264 DTS-JYK.mkv)"
 
 Dobly 5.1 ~ 2.0 switching
 kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Video/251 AC3 2.0 & AC35.1 - Daily Show with commercials.m2ts)"
 
+Dolby Digital Puls
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Video/Dolby_Digital_Plus/dolby_digital_plus_channel_check_lossless-DWEU.mkv)"
+
 /media/sda5-usb-ST912081_7AS_ST9/Video/DTS_2048 Frame size
-/media/sda5-usb-ST912081_7AS_ST9/Video/DTS_51
 /media/sda5-usb-ST912081_7AS_ST9/Video/DTS_HD_MA_51
 /media/sda5-usb-ST912081_7AS_ST9/Video/DolbyDigital
 /media/sda5-usb-ST912081_7AS_ST9/Video/Dolby_Digital_AC3_20
 /media/sda5-usb-ST912081_7AS_ST9/Video/Dolby_Digital_AC3_51
-/media/sda5-usb-ST912081_7AS_ST9/Video/Dolby_Digital_Plus
 /media/sda5-usb-ST912081_7AS_ST9/Video/Dolby_Digital_TrueHD51
 /media/sda5-usb-ST912081_7AS_ST9/Video/Dolby_Digital_TrueHD71
 /media/sda5-usb-ST912081_7AS_ST9/Video/ULI
 /media/sda5-usb-ST912081_7AS_ST9/Video/怒火地平線_DD51
-/media/sda5-usb-ST912081_7AS_ST9/Video/星際爭霸戰 浩瀚無垠_AC3
 /media/sda5-usb-ST912081_7AS_ST9/Video/泰山傳奇
 /media/sda5-usb-ST912081_7AS_ST9/Video/玩命直播_DD51
 /media/sda5-usb-ST912081_7AS_ST9/Video/第五毀滅_AAC20
-/media/sda5-usb-ST912081_7AS_ST9/Video/馬可白_DTS
 /media/sda5-usb-ST912081_7AS_ST9/Video/驚奇4超人
-/media/sda5-usb-ST912081_7AS_ST9/Video/鷸Piper_DD51_DTS
+
 
 
 [Song]
@@ -122,3 +133,5 @@ kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Song/The Cranberr
 kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Song/The Cranberries - Roses,isdir)"
 kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Song/Yanni - Live_At_The_Acropolis,isdir)"
 
+[CEC]
+kodi-send --action="CECActivateSource"
