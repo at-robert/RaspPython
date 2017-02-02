@@ -40,7 +40,7 @@ def sound_det():
                 print "Sound Detected"
                 break
             else:
-                if(count > 100):
+                if(count > 200):
                     print "No Sound Detected"
                     time.sleep(4)
                     # os.system('irsend SEND_ONCE VIZIO_SB KEY_POWER')
@@ -92,9 +92,9 @@ def vizio_SB_3251_Loop():
         sound_det()
         os.system('irsend SEND_ONCE VIZIO_SB KEY_INPUT_BLUETOOTH')
         time.sleep(7)
-        sound_det()
         os.system('irsend SEND_ONCE VIZIO_SB KEY_PLAYPAUSE')
-        count = count + 1
+        sound_det()
+	count = count + 1
         print "LOOP COUNT = %d" %(count)
 
 

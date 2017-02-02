@@ -40,10 +40,10 @@ def sound_det():
                 print "Sound Detected"
                 break
             else:
-                if(count > 100):
+                if(count > 200):
                     print "No Sound Detected"
                     time.sleep(4)
-                    os.system('irsend SEND_ONCE VIZIO_SB KEY_POWER')
+                    os.system('irsend SEND_ONCE VIZIO_SB KEY_VOLUMEUP')
                     count = 0
             count = count + 1
     	except IOError:
@@ -71,7 +71,7 @@ def vizio_SB_3251_Loop():
         count = count + 1
         print "LOOP COUNT = %d" %(count)
         sound_det()
-        time.sleep(8)
+        time.sleep(4)
         os.system('irsend SEND_ONCE VIZIO_SB KEY_POWER')
         
 #----------------------------------------------------------------------
