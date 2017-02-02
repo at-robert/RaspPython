@@ -41,7 +41,7 @@ def sound_det():
             print "Sound Detected"
             break
         else:
-            if(count > 10):
+            if(count > 100):
                 print "No Sound Detected"
         count =  count + 1
 
@@ -67,6 +67,7 @@ def vizio_SB_3251_Loop():
         count = count + 1
         print "LOOP COUNT = %d" %(count)
         sound_det()
+        os.system('irsend SEND_ONCE VIZIO_SB KEY_POWER')
 
 
 #----------------------------------------------------------------------
