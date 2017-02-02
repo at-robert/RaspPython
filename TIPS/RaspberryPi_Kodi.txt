@@ -1,0 +1,124 @@
+When you first boot you should enable SSH when the Welcome to OpenElec wizard is displayed. You can enable SSH, later, via the OpenElec settings.
+
+The SSH login details are
+
+Login: root
+Password: openelec
+
+Make /flash writeable
+
+Once logged in via SSH the disk partition mounted under the /flash directory needs to be made writeable. 
+Run the following command in the SSH console to do this:
+
+#mount -o remount,rw /flash
+
+Edit config.txt
+
+Edit the configuration text file /flash/config.txt using an available text editor, such as nano or vi.
+
+Add the following lines,depending on the type of sound card, to config.txt.
+
+DAC/DAC+ Light
+dtoverlay=hifiberry-dac
+dtdebug=1
+
+DAC+ standard/pro
+dtoverlay=hifiberry-dacplus
+dtdebug=1
+
+Digi/Digi+
+dtoverlay=hifiberry-digi
+dtdebug=1
+
+Amp/Amp+
+dtoverlay=hifiberry-amp
+dtdebug=1
+
+* SPDIF white noise issues:
+This is what I have done step by step and everything works. They are basicly Friga's instructions, but a bit more detailed.
+
+1. edit config text and copy to it these lines:
+
+dtoverlay=pi3-disable-bt                                               
+＃dtoverlay=hifiberry-digi     
+dtoverlay=hifiberry-digi-overlay             
+dtdebug=1
+
+2. log into your RP3 Openelec using ssh (terminal for mac/linux, putty for windows)
+3.once in openelec give these comands:
+
+mount -o remount,rw /flash/
+curl https://raw.githubusercontent.com/raspberrypi/firmware/master/boot/overlays/pi3-disable-bt-overlay.dtb -o /flash/overlays/pi3-disable-bt-overlay.dtb
+
+mount -o remount,rw /flash/
+curl -k https://raw.githubusercontent.com/raspberrypi/firmware/master/boot/overlays/pi3-disable-bt-overlay.dtb -o /flash/overlays/pi3-disable-bt-overlay.dtb
+
+When you copy the second line highlight it from left to right, otherwise you might get it incomplete.
+4. exit terminal and reboot and you're done.
+
+
+
+* To play video through command line
+kodi-send --action="PlayerControl(Stop)"
+kodi-send --action="PlayMedia(/media/KINGSTON/Dolby_Digital_AC3_51/panasonic_high_quality_collection-DWEU.mkv)"
+
+http://kodi.wiki/view/List_of_built-in_functions
+
+[KODI COMMANDS]
+kodi-send --action="PlayerControl(Play)"
+
+kodi-send --action="Action(Info)"
+
+DD5.1 Test - 
+kodi-send --action="PlayerControl(Stop)"
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Video/鷸Piper_DD51_DTS/Piper.2016.720p.BluRay.DD5.1.x264-decibeL[EtHD].mkv)"
+
+DTS5.1 Test -
+kodi-send --action="PlayerControl(Stop)"
+kodi-send --action="PlayerControl(RepeatOne)"
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Video/鷸Piper_DD51_DTS/Piper.2016.PROPER.BluRay.REMUX.AVC.DTS.HD-MA.7.1-EPSiLON.mkv)"
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Video/星際爭霸戰 浩瀚無垠_AC3/Star.Trek.Beyond.2016.720p.WEB-DL.XviD.AC3-FGT.avi)"
+
+Dobly 5.1 ~ 2.0 switching
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Video/251 AC3 2.0 & AC35.1 - Daily Show with commercials.m2ts)"
+
+/media/sda5-usb-ST912081_7AS_ST9/Video/DTS_2048 Frame size
+/media/sda5-usb-ST912081_7AS_ST9/Video/DTS_51
+/media/sda5-usb-ST912081_7AS_ST9/Video/DTS_HD_MA_51
+/media/sda5-usb-ST912081_7AS_ST9/Video/DolbyDigital
+/media/sda5-usb-ST912081_7AS_ST9/Video/Dolby_Digital_AC3_20
+/media/sda5-usb-ST912081_7AS_ST9/Video/Dolby_Digital_AC3_51
+/media/sda5-usb-ST912081_7AS_ST9/Video/Dolby_Digital_Plus
+/media/sda5-usb-ST912081_7AS_ST9/Video/Dolby_Digital_TrueHD51
+/media/sda5-usb-ST912081_7AS_ST9/Video/Dolby_Digital_TrueHD71
+/media/sda5-usb-ST912081_7AS_ST9/Video/ULI
+/media/sda5-usb-ST912081_7AS_ST9/Video/怒火地平線_DD51
+/media/sda5-usb-ST912081_7AS_ST9/Video/星際爭霸戰 浩瀚無垠_AC3
+/media/sda5-usb-ST912081_7AS_ST9/Video/泰山傳奇
+/media/sda5-usb-ST912081_7AS_ST9/Video/玩命直播_DD51
+/media/sda5-usb-ST912081_7AS_ST9/Video/第五毀滅_AAC20
+/media/sda5-usb-ST912081_7AS_ST9/Video/馬可白_DTS
+/media/sda5-usb-ST912081_7AS_ST9/Video/驚奇4超人
+/media/sda5-usb-ST912081_7AS_ST9/Video/鷸Piper_DD51_DTS
+
+
+[Song]
+kodi-send --action="PlayerControl(Stop)"
+
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Song/Christina Perri - A Thousand Years.mp3)"
+
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Song/Maroon 5 - V,isdir)"
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Song/Adele - 25 (2015),isdir)"
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Song/Adele - Hello,isdir)"
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Song/Adele - Skyfall (2012),isdir)"
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Song/Adele 21,isdir)"
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Song/Celine Dion - A new day has come,isdir)"
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Song/Chris Cornell,isdir)"
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Song/Ed Sheeran-x (Deluxe Edition),isdir)"
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Song/Maroon 5 - V,isdir)"
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Song/Sum of All Fears,isdir)"
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Song/Tchaikovsky - CD2,isdir)"
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Song/The Cranberries,isdir)"
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Song/The Cranberries - Roses,isdir)"
+kodi-send --action="PlayMedia(/media/sda5-usb-ST912081_7AS_ST9/Song/Yanni - Live_At_The_Acropolis,isdir)"
+

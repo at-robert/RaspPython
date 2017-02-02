@@ -56,8 +56,3 @@ curl -k https://raw.githubusercontent.com/raspberrypi/firmware/master/boot/overl
 When you copy the second line highlight it from left to right, otherwise you might get it incomplete.
 4. exit terminal and reboot and you're done.
 
-* To play video through command line
-kodi-send --action="PlayerControl(Stop)"
-kodi-send --action="PlayMedia(/media/KINGSTON/Dolby_Digital_AC3_51/panasonic_high_quality_collection-DWEU.mkv)"
-
-http://kodi.wiki/view/List_of_built-in_functions
