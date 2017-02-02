@@ -11,7 +11,7 @@ import analyse
 
 # Initialize PyAudio
 pyaud = pyaudio.PyAudio()
-CHUNK = 3072
+CHUNK = 4096
 
 # Open input stream, 16-bit mono at 44100 Hz
 # On my system, device 4 is a USB microphone
@@ -30,7 +30,10 @@ def sound_det():
 
     while True:
         # Read raw microphone data
-        rawsamps = stream.read(CHUNK)
+        try:
+           rawsamps = stream.read(CHUNK)
+    	except IOError:
+           pass
         # Convert raw data to NumPy array
         samps = numpy.fromstring(rawsamps, dtype=numpy.int16)
         # Show the volume and pitch
