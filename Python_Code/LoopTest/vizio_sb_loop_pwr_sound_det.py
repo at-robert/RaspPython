@@ -11,7 +11,7 @@ import analyse
 
 # Initialize PyAudio
 pyaud = pyaudio.PyAudio()
-CHUNK = 4096
+CHUNK = 1024
 
 # Open input stream, 16-bit mono at 44100 Hz
 # On my system, device 4 is a USB microphone
@@ -26,24 +26,28 @@ stream = pyaud.open(
 #----------------------------------------------------------------------
 def sound_det():
     count = 0
-    print "Sound Check!!"
 
     while True:
         # Read raw microphone data
         try:
-           rawsamps = stream.read(CHUNK)
+            rawsamps = stream.read(CHUNK)
+            # Convert raw data to NumPy array
+            samps = numpy.fromstring(rawsamps, dtype=numpy.int16)
+            # Show the volume and pitch
+            vol = analyse.loudness(samps)
+
+            if(vol > -10) & (count > 10):
+                print "Sound Detected"
+                break
+            else:
+                if(count > 100):
+                    print "No Sound Detected"
+                    time.sleep(4)
+                    os.system('irsend SEND_ONCE VIZIO_SB KEY_POWER')
+                    count = 0
+            count = count + 1
     	except IOError:
            pass
-        # Convert raw data to NumPy array
-        samps = numpy.fromstring(rawsamps, dtype=numpy.int16)
-        # Show the volume and pitch
-        if(analyse.loudness(samps) > -10) & (count > 10):
-            print "Sound Detected"
-            break
-        else:
-            if(count > 100):
-                print "No Sound Detected"
-        count =  count + 1
 
 #----------------------------------------------------------------------
 def vizio_SB_2820_Loop():
@@ -67,9 +71,9 @@ def vizio_SB_3251_Loop():
         count = count + 1
         print "LOOP COUNT = %d" %(count)
         sound_det()
+        time.sleep(8)
         os.system('irsend SEND_ONCE VIZIO_SB KEY_POWER')
-
-
+        
 #----------------------------------------------------------------------
 if __name__ == "__main__":
 
