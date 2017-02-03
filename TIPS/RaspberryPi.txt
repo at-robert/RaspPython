@@ -16,6 +16,7 @@ sudo apt-get install -y python-qt4
 sudo apt-get install -y python-qwt5-qt4
 sudo apt-get install -y python-matplotlib
 sudo apt-get install -y python-scipy
+sudo apt-get install -y minicom
 
 sudo pip install SoundAnalyse
 
@@ -114,6 +115,9 @@ dtoverlay=pi3-miniuart-bt
 minicom -b 115200 -o -D /dev/ttyAMA0
 minicom -b 921600 -o -D /dev/ttyAMA0
 minicom -b 921600 -o -D /dev/ttyUSB0
+
+[STM32 VCP]
+minicom -b 115200 -o -D /dev/ttyACM0
 
 // To capture UART data into a log file
 minicom -b 115200 -o -D /dev/ttyAMA0 -C test.log
