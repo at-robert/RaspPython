@@ -1,0 +1,49 @@
+[reference link] 
+http://blog.itist.tw/2015/02/raspberry-pi-pppoe-connection.html
+
+1. 使用 pppoeconf 套件
+
+2. 直接從官方套件庫安裝 PPPoE 撥接程式。
+sudo apt-get -y install pppoeconf
+
+3. 準備設定撥接參數。
+sudo pppoeconf
+
+4. 別忘了打開小烏龜的電源，把網路線接到小烏龜上，否則會顯示撥接設備沒有回應 。
+
+5. 輸入撥接的相關設定值。 
+提示程式會把設定值寫到 /etc/ppp/peers/dsl-provider 檔案裡。
+
+6. 使用常見的撥接參數。
+
+7. 輸入撥接帳號。
+
+8. 輸入撥接密碼。
+
+9. 讓 ISP 提供的 DNS 設定值，直接存到本機的 DNS 設定檔裡。
+
+10. 配合 ADSL / FTTB，修改 MSS (Maximum Segment Size) 的數值。
+
+11. 開機後自動撥接。
+
+12. 現在立刻進行撥接連線。
+
+13. 設定完成。
+
+14. 程式已經自動幫我們撥接成功了。
+
+15. 這裡可以看到出現了 ppp0 的網路介面。
+
+16. 查詢一下目前撥接的狀態。
+plog
+
+17. 要斷線的話，直接輸入指令即可。
+sudo poff
+
+18. 不過，如果同時產生了多個 ppp 撥接介面的話，就要加「-a」的參數才可以強制斷線。
+sudo poff -a
+
+19. 重新撥接連線可以用「pon」指令。
+sudo pon dsl-provider
+
+20. 可是別忘了，要有「root」權限才可以正確的撥接成功。
