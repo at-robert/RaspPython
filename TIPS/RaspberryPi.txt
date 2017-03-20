@@ -20,6 +20,7 @@ sudo apt-get install -y minicom
 
 sudo pip install SoundAnalyse
 
+sudo apt-get install -y nmap
 
 [STEP 2]
 sudo nano /etc/samba/smb.conf
