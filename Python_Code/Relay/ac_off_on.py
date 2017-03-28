@@ -5,16 +5,18 @@ import shutil
 import chardet
 import time
 import RPi.GPIO as GPIO
+import random
 
 #----------------------------------------------------------------------
 def vizio_SB_Ac_off_on():
 
     while 1:
-        time.sleep(10)
+        time.sleep(25+random.randint(0,25))
         GPIO.output(37,True)
+	GPIO.output(38,True)
         time.sleep(5)
         GPIO.output(37,False)
-
+	GPIO.output(38,False)
 
 
 #----------------------------------------------------------------------
