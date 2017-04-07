@@ -364,3 +364,7 @@ git push -u origin master
 …or push an existing repository from the command line
 git remote add origin https://github.com/at-robert/RaspPython.git
 git push -u origin master
+
+[To update all git folders]
+# find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {} && git fs && echo)' \;
+
