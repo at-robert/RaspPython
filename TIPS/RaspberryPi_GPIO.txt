@@ -1,0 +1,43 @@
+
+[Example LINK]
+http://elinux.org/RPi_GPIO_Code_Samples
+
+GPIO 不同的方式可達到的速度
+http://codeandlife.com/2012/07/03/benchmarking-raspberry-pi-gpio-speed/
+
+BCM2835 跟 wiringpi 的範例
+http://www.waveshare.net/study/article-602-1.html
+
+
+[Usage]
+import RPi.GPIO as GPIO ## Import GPIO library
+GPIO.setmode(GPIO.BOARD) ## Use board pin numbering
+GPIO.setup(8, GPIO.OUT) ## Setup GPIO Pin 8 to OUT
+GPIO.output(8,False) ## Turn on GPIO pin 8
+
+GPIO.output(8,True) ## Turn on GPIO pin 8
+
+#Relay control test
+
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(37, GPIO.OUT)
+GPIO.setup(38, GPIO.OUT)
+GPIO.setup(40, GPIO.OUT)
+
+GPIO.output(37,False)
+GPIO.output(38,False)
+GPIO.output(40,False)
+
+GPIO.output(37,True)
+GPIO.output(38,True)
+GPIO.output(40,True)
+
+[GPIO Input]
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BOARD)
+
+#pin 15 (GPIO 22)
+GPIO.setup(15, GPIO.IN)
+input = GPIO.input(15)
+print input
