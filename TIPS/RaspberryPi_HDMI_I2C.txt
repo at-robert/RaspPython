@@ -14,8 +14,8 @@ If all you get back is an “Unable to find monitor information!” error messag
 
 Running tvservice with the “-d” flag will spit out a binary file with information about your TV. You can pipe that file through the edidparser to get something human readable.
 
-/opt/vc/bin/tvservice -d edid.dat
-/opt/vc/bin/edidparser edid.dat > edid.txt
+/opt/vc/bin/tvservice -d edid.bin
+/opt/vc/bin/edidparser edid.bin > edid.txt
 
 There’s a lot of information there about your TV. The interesting lines contain the word “score”, and describe the mode, resolution, refresh rate, and pixel clock rates your TV supports. 
 You can grep the output to figure out if your TV supports a particular resolution, like 1080p.
