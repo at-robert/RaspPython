@@ -1,0 +1,251 @@
+Python 使用 I2C bus on Raspberry Pi
+這篇文章介紹使用 Python 來對i2c介面做簡單的控制。
+
+Python控制i2c會需要用到package "python-smbus" ，沒有的話就用apt來安裝吧。
+
+
+sudo apt-get install python-smbus
+另外在熟悉程式開發期間，可以配合i2c-tools工具package來用，這是一個非常好用的工具。
+
+http://coldnew.github.io/blog/2013/06/19_e5bcf.html
+
+可以先用i2c-tools提供的i2cdetect指令來看看eeprom的i2c slave address是多少:
+sudo i2cdetect -y 1
+
+從列表裡可以知道，我們的 eeprom 在 i2c bus 上的 slave address 為 0x50。
+
+順便說明一下， i2c 介面上面的指令都是對bus指定的slave address上的特定暫存器位置做存取的動作，
+而每個暫存器大都為 1 byte，而有時候 device 需要儲存16bit的數值資料時就會用2 個連續的暫存器。
+這個 eeprom 裡面就有 256 個暫存器單純用來儲存數值所用，所以非常適合用來練習i2c介面的程式設計。
+
+因為python上的 smbus package 和 linux kernel module: i2c-dev已經把i2c底層硬體的事情做完了，
+所以在python上面使用i2c會變得非常的平易近人。只需要知道devica的slave id之後，就可以開始寫程式了。
+
+所以下面就先寫個python小程式來試看看。
+
+import smbus
+
+i2c = smbus.SMBus(1)  # 指定使用/dev/i2c-1
+addr = 0x50           # eeprom 在 i2c bus 上的位置
+reg = 0x00            # 打算要存取的暫存器位置
+value = 0x64          # 等一下要寫入的值
+i2c.write_byte_data(addr, reg, val)  # 寫入的動作
+print i2c.read_byte_data(addr,reg)   # 把剛剛寫入的值讀出來確定一下
+上面的程式一開始宣告了一個 smbus.SMBus(1) 的物件來控制 i2c 介面。引入的參數'1'指的是 /dev/i2c-1 這個裝置檔案。
+
+Raspbian 系統一開始並不會產生 /dev/i2c-1 ，但可以透過手動載入module : i2c-dev 來產生。
+
+
+sudo modprobe i2c-dev
+成功之後，使用指令 lsmod 會看到 "i2c_dev" 這個模組掛載在其中。 
+
+之後只要透過 smbus 提供的 method:
+
+
+read_byte_data(<I2C device addr>, <暫存器位置>)
+
+write_byte_data(< i2c device address>, <暫存器位置>, <要寫入的byte值>)
+就可以對指定的i2c device 做指定暫存器的單一 byte 存取。
+但是一般來說 i2c device 都會支援連續 byte 讀寫動作。是由下面這兩個 method 所支援。
+
+
+read_i2c_block_data(< i2c device address>, <連續讀取暫存器起始位置>, <總共要讀取的byte 的 數量>)
+
+write_i2c_block_data(< i2c device address>, <連續讀取暫存器起始位置>, <要連續寫入的資料 list>)
+
+舉例來說，我要從某個 i2c device (address = 0x40)中，從暫存器0x04開始先連續寫入 [0x01,0x03,0x05,0x08,0xff] 。
+
+然後再從原來的0x04開始連續讀取8個byte的資料的話，code 寫出來是長這樣子的。
+
+
+import smbus
+
+i2c = smbus.SMBus(1)  
+addr = 0x40           
+reg = 0x04            
+len = 8
+vals = [0x01,0x03,0x05,0x08,0xff]
+i2c.write_i2c_block_data(addr, reg, vals)
+data = i2c.read_i2c_block_data(addr, reg, len)
+
+=====================================================================================================================
+
+讓 Raspberry Pi 可以讀取 i2c 設備
+1. 將 i2c 模組從黑名單中移除 
+雖然我不清楚為什麼 i2c 模組並不會預設被 Raspberry Pi 載入，但是如果沒有將這個模組從黑名單中移除的話，
+你是無法使用 modeprobe 這個命令載入 i2c 模組的，移除的方式如下，首先編輯 
+
+/etc/modprobe.d/raspi-blacklist.conf
+將裏面的資訊變成如下 
+
+# blacklist spi and i2c by default (many users don't need them)
+
+blacklist spi-bcm2708
+# blacklist i2c-bcm2708
+完成後先進行重新啟動 
+
+2. 載入 i2c 模組 
+Raspberry Pi 預設沒有載入 i2c 模組，因此我們必須手動載入他 
+
+pi@raspberrypi:/home/pi$ sudo modprobe i2c-dev
+如果你覺得每次都要手動載入很麻煩，可以修改 /etc/modules，將 i2c-dev 加入到檔案裏面，這樣重開之後，Raspberry Pi 會自動載入該載入的模組。 
+
+載入好模組後，你會看到 /dev 下面多增加了 i2c-0 以及 i2c-1 兩個設備節點 
+
+pi@raspberrypi:/home/pi$ ls /dev/i2c*
+/dev/i2c-0  /dev/i2c-1
+安裝 i2c-tools
+我們在這邊使用最常用的 i2c-tools，因為這個套件並沒有被預先安裝，因此你必須自己安裝 
+
+sudo apt-get install python-smbus
+pi@raspberrypi:/home/pi$ sudo apt-get install i2c-tools
+安裝完後，你會增加以下幾個命令 
+
+i2cdetect  i2cdump    i2cget     i2cset
+這些命令的用途如下: 
+
+i2cdetect – 用來列舉 I2C bus 和上面所有的裝置 
+i2cdump – 顯示裝置上所有暫存器 (register) 數值 
+i2cget – 讀取裝置上某個暫存器值 
+i2cset – 修改裝置上的暫存器數值 
+使用 i2cdetect 察看目前有多少個 i2c bus
+你可以使用以下命令來察看目前的系統有多少個 i2c bus，以我手上的 Raspberry Pi 為例 
+
+pi@raspberrypi:/home/pi$ sudo i2cdetect -l
+會得到 
+
+i2c-0   i2c             bcm2708_i2c.0                           I2C adapter
+i2c-1   i2c             bcm2708_i2c.1                           I2C adapter
+在 rev.1 版本的 Raspberry Pi 上，i2c bus 是使用 i2c-0，而在現在販售的 rev.2 版本，則都改成使用 i2c-1 作為 i2c bus。 
+
+使用 i2cdetect 察看目前掛在 i2c bus 上的設備
+知道你要查詢的 I²C bus 後，我們可以使用 
+
+pi@raspberrypi:/home/pi$ sudo i2cdetect -y 1
+來查詢 i2c-1 bus 上的所有設備，所得到的結果如下 
+
+root@raspberrypi:/home/pi# i2cdetect -y 1
+    0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+00:          -- -- -- -- -- -- -- -- -- -- -- -- --
+10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+50: 50 -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+60: -- -- -- -- -- -- -- -- UU -- -- -- -- -- -- --
+70: -- -- -- -- -- -- -- --
+這樣代表共有兩個裝置掛在 i2c-1 上，其中標示為 UU 的代表該設備有被偵測到並正在被 kernel driver 使用著，而在這邊顯示 0x50 的就是我們所使用的 EEPROM。 
+
+使用 i2cdump 查詢設備內所有暫存器
+我們現在知道 EEPROM 是掛在 i2c-1 上的 0x50，若想知道 EEPROM 裏面的資訊，則可以使用 i2cdump 來獲得，i2cdump 的使用方式如下 
+
+Usage: i2cdump [-f] [-y] [-r first-last] I2CBUS ADDRESS [MODE [BANK [BANKREG]]]
+I2CBUS is an integer or an I2C bus name
+ADDRESS is an integer (0x03 - 0x77)
+MODE is one of:
+  b (byte, default)
+  w (word)
+  W (word on even register addresses)
+  s (SMBus block)
+  i (I2C block)
+  c (consecutive byte)
+  Append p for SMBus PEC
+因此我們取得 i2c-1 上的 0x50 資訊，就使用 
+
+i2cdump -y 1 0x50
+你會得到 
+
+root@raspberrypi:/home/pi# i2cdump -y 1 0x50
+No size specified (using byte-data access)
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f    0123456789abcdef
+00: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+10: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+20: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+30: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+40: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+50: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+60: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+70: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+80: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+90: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+a0: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+b0: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+c0: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+d0: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+e0: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+f0: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+這邊 EEPROM 內的資訊都是 0xFF ，這是出廠時的預設狀況，我們可以使用 i2cset 來修改他的數值。 
+
+使用 i2cset 修改設備暫存器數值
+如果我們想修改 EEPROM 裏面的數值，那要怎麼辦呢？這時候可以使用 i2cset 來幫忙完成，i2cset 的使用方式如下 
+
+Usage: i2cset [-f] [-y] [-m MASK] I2CBUS CHIP-ADDRESS DATA-ADDRESS [VALUE] ... [MODE]
+  I2CBUS is an integer or an I2C bus name
+  ADDRESS is an integer (0x03 - 0x77)
+  MODE is one of:
+    c (byte, no value)
+    b (byte data, default)
+    w (word data)
+    i (I2C block data)
+    s (SMBus block data)
+    Append p for SMBus PEC
+假如我們想要修改位於 i2c-1 上 0x50 的 0x12 暫存器，並將其數值修改為 5，我們命令就可以這樣下 
+
+i2cset -f -y 1 0x50 0x12 5
+再一次使用 i2cdump，你會發現不再是清一色的 0xFF 了 
+
+sudo i2cset -f -y 1 0x50 0x00 2
+sudo i2cset -f -y 1 0x50 0x01 4
+sudo i2cset -f -y 1 0x50 0x02 8
+sudo i2cset -f -y 1 0x50 0x03 9
+
+sudo i2cdump -y 1 0x50
+
+root@raspberrypi:/home/pi# i2cdump -y 1 0x50
+No size specified (using byte-data access)
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f    0123456789abcdef
+00: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+10: ff ff 05 ff ff ff ff ff ff ff ff ff ff ff ff ff    ..?.............
+20: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+30: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+40: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+50: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+60: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+70: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+80: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+90: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+a0: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+b0: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+c0: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+d0: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+e0: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+f0: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff    ................
+使用 i2cget 來取得暫存器的數值
+有些時候我們只想要看某個暫存器位址，這時候使用 i2cget 是最快的選擇， i2cget 命令格式如下 
+
+Usage: i2cget [-f] [-y] I2CBUS CHIP-ADDRESS [DATA-ADDRESS [MODE]]
+I2CBUS is an integer or an I2C bus name
+ADDRESS is an integer (0x03 - 0x77)
+MODE is one of:
+  b (read byte data, default)
+  w (read word data)
+  c (write byte/read byte)
+  Append p for SMBus PEC
+因此，若我們要察看剛剛所設定的 0x12 暫存器，則可以用以下方式得到該暫存器的數值 
+
+root@raspberrypi:/home/pi# i2cget  -y 1 0x50 0x12
+0x05
+
+* To write a python or C code to use I2C bus
+http://www.52pi.net/forum.php?mod=viewthread&tid=813
+
+http://www.raspberry-projects.com/pi/programming-in-python/i2c-programming-in-python/using-the-i2c-interface-2
+
+[TOPICS]
+To write the program to access EEPROM over Raspberry pi platform.
+[TIPS]
+sudo ./eeprom -p 1 -f data.bin
+[LINK]
+http://www.gallot.be/?p=180
+
+[TOPICS --]
