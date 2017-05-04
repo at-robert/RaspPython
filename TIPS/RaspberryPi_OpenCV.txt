@@ -1,0 +1,135 @@
+[Reference]
+http://storychen.blogspot.tw/2016/06/raspberry-pi-3-opencv.html
+
+[STEPS]
+Raspberry Pi 3 教學 (三) 安裝OpenCV
+
+OpenCV是一個跨平台的電腦視覺函式庫。OpenCV是由英特爾公司發起並參與開發，以BSD授權條款授權發行，可以在商業和研究領域中免費使用。
+網路上 Raspberry Pi 3 安裝 OpenCV 的 文章很多，我覺得這一篇最完整，本次安裝過程也是參照這網站改成中文，安裝過程都在SSH底下完，成請先用SSH登入Raspberry Pi 3。
+
+http://www.pyimagesearch.com/2016/04/18/install-guide-raspberry-pi-3-raspbian-jessie-opencv-3/
+
+
+第一步就是升級系統
+
+$ sudo apt-get update
+$ sudo apt-get upgrade
+
+安裝cmake
+$ sudo apt-get install build-essential cmake pkg-config
+
+
+
+安裝圖片檔的函式庫,包括JPEG，PNG，TIFF等...
+$ sudo apt-get install libjpeg-dev libtiff5-dev libjasper-dev libpng12-dev
+
+安裝串流影像函式庫
+$ sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
+$ sudo apt-get install libxvidcore-dev libx264-dev
+
+安裝GTK函式庫
+$ sudo apt-get install libgtk2.0-dev
+
+安裝OpenCV優化的開發工具
+$ sudo apt-get install libatlas-base-dev gfortran
+
+安裝 Python 3標頭檔
+$ sudo apt-get install  python3-dev
+
+下載OpenCV的原始檔,這次安裝的是 3.1.0
+
+$ cd ~
+$ wget -O opencv.zip https://github.com/Itseez/opencv/archive/3.1.0.zip
+$ unzip opencv.zip
+
+下載 opencv_contrib 函式庫
+
+$ wget -O opencv_contrib.zip https://github.com/Itseez/opencv_contrib/archive/3.1.0.zip
+$ unzip opencv_contrib.zip
+　
+安裝 Python 的套件管理程式 pip：
+
+$ wget https://bootstrap.pypa.io/get-pip.py
+$ sudo python get-pip.py
+
+安裝 Python 虛擬環境 virtualenv   和 virtualenvwrapper
+
+$ sudo pip install virtualenv virtualenvwrapper
+$ sudo rm -rf ~/.cache/pip
+
+virtualenv   和 virtualenvwrapper   安裝好了，需要更新 ~/.profile 檔案，我是用文字編輯器 nano
+
+nano ~/.profile
+
+在 ~/.profile 檔案底下多這三行
+
+# virtualenv and virtualenvwrapper
+export WORKON_HOME=$HOME/.virtualenvs
+source /usr/local/bin/virtualenvwrapper.sh
+
+更新 ~/.profile
+
+$ source ~/.profile
+創建一個Python的虛擬環境
+
+$ mkvirtualenv cv -p python3
+
+檢查“CV”虛擬環境
+$ source ~/.profile
+$ workon cv
+
+安裝  numpy  Python 陣列運算的數學函式函式庫。
+
+$ pip install numpy
+
+安裝過程要在CV虛擬環境中。設置使用CMake的的建構環境。
+
+$ cd ~/opencv-3.1.0/
+$ mkdir build
+$ cd build
+$ cmake -D CMAKE_BUILD_TYPE=RELEASE \
+    -D CMAKE_INSTALL_PREFIX=/usr/local \
+    -D INSTALL_PYTHON_EXAMPLES=ON \
+    -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib-3.1.0/modules \
+    -D BUILD_EXAMPLES=ON ..
+   
+編譯 Opencv   make -j4  是使用4核心。
+
+$ make -j4
+這過程約70~200分鐘,跟SD卡有很大關係,我用UHS-I U3 32G 號稱高達90MB/秒寫入速度的只要70分鐘左右,用SDHC Class 4 32GB 要3小時以上!!
+
+安裝OpenCV 3.1.0。
+$ sudo make install
+$ sudo ldconfig
+
+安裝後 OpenCV + Python 應該安裝在 /usr/local/lib/python3.4/site-packages/ 。可用 ls 指令查看。
+
+ls -l /usr/local/lib/python3.4/site-packages/
+
+回應
+total 1852
+-rw-r--r-- 1 root staff 1895932 Mar 20 21:51 cv2.cpython-34m.so
+
+檔名應該是 cv2.so 但是變成cv2.cpython-34m.so 需要手動變更檔案名稱
+$ cd /usr/local/lib/python3.4/site-packages/
+$ sudo mv cv2.cpython-34m.so cv2.so
+
+CV2更名後要聯結Python 3.4的虛擬環境：
+$ cd ~/.virtualenvs/cv/lib/python3.4/site-packages/
+$ ln -s /usr/local/lib/python3.4/site-packages/cv2.so cv2.so
+
+開啟一個新的 SSH 視窗確認OpenCV 安裝正常。
+
+$ workon cv
+$ python
+>>> import cv2
+>>> cv2.__version__
+'3.1.0'
+
+確認 OpenCV 安裝好後就可刪除 OpenCV - 3.1.0   和 opencv_contrib - 3.1.0 的安裝過程使用的目錄。
+
+$  rm -rf opencv-3.1.0 opencv_contrib-3.1.0
+
+
+http://opencv.org/
+http://www.pyimagesearch.com/2016/04/18/install-guide-raspberry-pi-3-raspbian-jessie-opencv-3/
