@@ -1,0 +1,104 @@
+
+[TOPICS]
+ * Setting up Git
+
+1. Download and install the latest version of Git.
+On your computer, open the Terminal application.
+
+2. Tell Git your name so your commits will be properly labeled. Type everything after the $ here:
+$git config --global user.name "at-robert"
+
+git config --global user.name "robert.lo"
+git config --global user.email "robert.lo@amtran.com.tw"
+
+3. Tell Git the email address that will be associated with your Git commits. 
+The email you specify should be the same one found in your email settings. 
+To keep your email address hidden, see "Keeping your email address private".
+
+$git config --global user.email "atttrobert@gmail.com"
+[TOPICS --]
+
+[TOPICS]
+* Authenticating with GitHub from Git
+
+When you connect to a GitHub repository from Git, you'll need to authenticate with GitHub using either HTTPS or SSH.
+Connecting over HTTPS (recommended)
+
+If you clone with HTTPS, you can cache your GitHub password in Git using a credential helper.
+
+Connecting over SSH
+If you clone with SSH, you must generate SSH keys on each computer you use to push or pull from GitHub.
+[TOPICS --]
+
+[TIPS]
+* To copy git files from the Github.com
+git clone https://github.com/at-robert/TestFolder.git
+git clone https://github.com/at-robert/GitTips.git
+git clone https://github.com/at-robert/ATP_FCST.git
+git clone https://github.com/at-robert/LinuxScript.git
+git clone https://github.com/at-robert/RaspPython.git
+
+[TOPICS]
+* How to setup Github to ignore some certain file types which should not be uploaded. 
+ a. In the terminal interface, switching the Git working folder
+ b. To create a file ".gitignore" if it doesn't exist yet.
+ c. To edit this file to add the following content to specify what type of file you don't git to manage them
+.DS_Store
+._.DS_Store
+cache/
+log/*.log
+tmp/
+*.tmp
+*.swp
+*.o
+*.so
+*.a
+*.exe
+*.bin
+*~
+[TOPICS --]
+
+[TIPS]
+git@github.com:at-robert/GitTips.git
+
+
+…or create a new repository on the command line
+echo "# GitTips" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/at-robert/GitTips.git
+git push -u origin master
+
+…or push an existing repository from the command line
+git remote add origin https://github.com/at-robert/GitTips.git
+git push -u origin master
+
+
+git commit -m "[refactor] - To add an ignore list and move some files to the specific folder"
+
+
+[Pull]
+git pull -u origin master
+
+[Git Hub respository list]
+https://github.com/at-robert/GitTips.git
+https://github.com/at-robert/RaspPython.git
+https://github.com/at-robert/LinuxScript.git
+https://github.com/at-robert/PyCrawler.git
+
+[BitBucket]
+https://at-robert@bitbucket.org/at-robert/swiss_knife.git
+
+[Study and pratice]
+https://try.github.io/levels/1/challenges/1
+
+[SSH key]
+cd ~
+mkdir .ssh
+cd ~/.ssh 
+ssh-keygen -t rsa -b 4096 -C "atttrobert@gmail.com"
+
+git clone git@github.com:at-robert/RaspPython.git
+git clone git@bitbucket.org:at-robert/swiss_knife.git
+
