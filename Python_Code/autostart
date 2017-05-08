@@ -1,7 +1,7 @@
 @lxpanel --profile LXDE-pi
 @pcmanfm --desktop --profile LXDE-pi
 @xscreensaver -no-splash
-@sh /home/pi/RaspPython/Python_Code/hello_ir.sh
-@python /home/pi/RaspPython/Python_Code/Flask/cmd.py
-@python /home/pi/RaspPython/Python_Code/MP3/mp3_play.py /media/pi/SANDISK/Music/MP3/
+# @sh /home/pi/RaspPython/Python_Code/hello_ir.sh
+# @python /home/pi/RaspPython/Python_Code/Flask/cmd.py
+# @python /home/pi/RaspPython/Python_Code/MP3/mp3_play.py /media/pi/SANDISK/Music/MP3/
 @sh /home/pi/RaspPython/Scripts/up_git.sh
