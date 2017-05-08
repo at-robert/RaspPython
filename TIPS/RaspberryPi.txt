@@ -365,6 +365,10 @@ git push -u origin master
 git remote add origin https://github.com/at-robert/RaspPython.git
 git push -u origin master
 
+[Rasp_x2 ssh key]
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQD5CsInmQ1dEgftlRkOy0b2+u9qyjzZnd4TCkXC/czd+Xuvogv2znkhVKrSbz2zsq2KbsMC97cq1nUSgw0/5LYPA5/CYNKv9xSdRZcfiX9467TuKcu1MCEZHKd4oHZiiqdKAOEwqG/qljtRmkXhEwcYEQ0bHcq/w0OX39D2GRkSxF1fy5QK8BtipFkehJZlcrroYdAyIWNcCVqXlIjF3+eHRF58/EO/oX2IRrrZvGP8fvaczAv/qnNpEd5CjZYBmd8BJW5J2eR8LbE2I6T/SCPMWyku9NjUL3ltuvC9g/9MV1FXyI8aFY1tKEb2qIqmIhRJRP1YkLAGSgAlPoYvCCrVS6eerz4xvfyeuFnfOd9Ck2dg7kCk+6PeVOP79ENtURSjEDcon1sz8Edmb4zn/r9brXHLuzy1VNAr0kGUrpI6bZHLpjPRxtyV0mHcaaO53kZ+d3+J1XHlzF20EdO0FuBnBEnppictnZ0AqnDSAF9/rUjigQpSaFEYZiXbN76zdL7Mr5ZfjTaMMsx4ztpIlY6X0/7n3sfLxEP09yu9vTImyayt/qpFHwbZFQuSPNYKANxJcDtrJFuPGv7bCQ+QdH90GM5xIl/6a38hCg/bcLI9dJ38LfwqnIXbqSCSPUPdPdYkp76XwY6lv/Cc+4eemhKGutMnwiqvnsjgYSXOwVALtQ== atttrobert@gmail.com
+
+
 [To update all git folders]
 # find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {} && git fs && echo)' \;
 
