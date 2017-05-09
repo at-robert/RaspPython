@@ -54,6 +54,9 @@ $ sudo python get-pip.py
 
 安裝 Python 虛擬環境 virtualenv   和 virtualenvwrapper
 
+* To fix pip error
+$ sudo easy_install --upgrade pip
+
 $ sudo pip install virtualenv virtualenvwrapper
 $ sudo rm -rf ~/.cache/pip
 
@@ -81,6 +84,7 @@ $ workon cv
 安裝  numpy  Python 陣列運算的數學函式函式庫。
 
 $ pip install numpy
+* It takes a long time to wait
 
 安裝過程要在CV虛擬環境中。設置使用CMake的的建構環境。
 
@@ -89,14 +93,27 @@ $ mkdir build
 $ cd build
 $ cmake -D CMAKE_BUILD_TYPE=RELEASE \
     -D CMAKE_INSTALL_PREFIX=/usr/local \
+    -D INSTALL_C_EXAMPLES=OFF \
     -D INSTALL_PYTHON_EXAMPLES=ON \
     -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib-3.1.0/modules \
     -D BUILD_EXAMPLES=ON ..
-   
+
+* To make sure the following messages to show up after runing Cmake
+--   Python 3:
+--     Interpreter:                 /home/pi/.virtualenvs/cv/bin/python3.4 (ver 3.4.2)
+--     Libraries:                   /usr/lib/arm-linux-gnueabihf/libpython3.4m.so (ver 3.4.2)
+--     numpy:                       /home/pi/.virtualenvs/cv/lib/python3.4/site-packages/numpy/core/include (ver 1.12.1)
+--     packages path:               lib/python3.4/site-packages
+* If these messages don't exist, you need to delete "build" folder and then start another again.    
+
 編譯 Opencv   make -j4  是使用4核心。
 
 $ make -j4
 這過程約70~200分鐘,跟SD卡有很大關係,我用UHS-I U3 32G 號稱高達90MB/秒寫入速度的只要70分鐘左右,用SDHC Class 4 32GB 要3小時以上!!
+
+* If error pops out during the make process, you might re-do the process by (Simply just use one cpu core to build)
+make clean
+make
 
 安裝OpenCV 3.1.0。
 $ sudo make install
@@ -105,6 +122,8 @@ $ sudo ldconfig
 安裝後 OpenCV + Python 應該安裝在 /usr/local/lib/python3.4/site-packages/ 。可用 ls 指令查看。
 
 ls -l /usr/local/lib/python3.4/site-packages/
+
+ls -l /usr/local/lib/python2.7/site-packages/
 
 回應
 total 1852
@@ -129,6 +148,9 @@ $ python
 確認 OpenCV 安裝好後就可刪除 OpenCV - 3.1.0   和 opencv_contrib - 3.1.0 的安裝過程使用的目錄。
 
 $  rm -rf opencv-3.1.0 opencv_contrib-3.1.0
+
+* To install pandas 
+$ sudo apt-get install python-pandas
 
 
 http://opencv.org/
