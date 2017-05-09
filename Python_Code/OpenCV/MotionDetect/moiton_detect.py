@@ -39,9 +39,9 @@ while True:
         times.append(datetime.now())
 
 
-    cv2.imshow("Gray image",gray)
-    cv2.imshow("delta image",delta_frame)
-    cv2.imshow("Threshold Frame",thresh_frame)
+    #cv2.imshow("Gray image",gray)
+    #cv2.imshow("delta image",delta_frame)
+    #cv2.imshow("Threshold Frame",thresh_frame)
     cv2.imshow("Color Frame", frame)
 
     key = cv2.waitKey(1)
