@@ -343,6 +343,8 @@ screen /dev/cu.HC-05-DevB 115200
 [Music play]
 omxplayer -o local /media/pi/SANDISK/Music/MP3/WontGoHomeWithoutYou_Maroon5.mp3
 
+omxplayer -o local ~/Music/Kalimba.mp3
+
 #External USB sound card
 aplay ~/Music/DingTone.wav -D sysdefault:CARD=1
 

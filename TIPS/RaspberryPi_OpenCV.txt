@@ -1,5 +1,7 @@
 [Reference]
 http://storychen.blogspot.tw/2016/06/raspberry-pi-3-opencv.html
+http://www.pyimagesearch.com/2016/04/18/install-guide-raspberry-pi-3-raspbian-jessie-opencv-3/
+
 
 [STEPS]
 Raspberry Pi 3 教學 (三) 安裝OpenCV
