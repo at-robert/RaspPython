@@ -1,3 +1,5 @@
+[STEP 0]
+
 * The first time install: [STEP 1]
 sudo apt-get update
 sudo apt-get upgrade
