@@ -1,5 +1,9 @@
 [STEP 0]
 
+Default login 
+Username: pi 
+Password: raspberry
+
 * The first time install: [STEP 1]
 sudo apt-get update
 sudo apt-get upgrade
