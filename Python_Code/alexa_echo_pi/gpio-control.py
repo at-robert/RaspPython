@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.DEBUG)
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-gpio_ports = {'gpio1':1,'gpio2':2,'gpio3':3,'gpio4':4,'gpio5':5,'gpio6':6,'gpio7':7,'gpio8':8,'gpio9':9,'gpio10':10,'gpio11':11,'gpio12':12,'gpio13':13,'gpio14':14,'kitchen light':15,'gpio16':16,'gpio17':17,'gpio18':18,'gpio19':19,'gpio20':20,'gpio21':21,'gpio22':22,'gpio23':23,'gpio24':24,'gpio25':25,'gpio26':26}
+gpio_ports = {'gpio1':1,'gpio2':2,'gpio3':3,'gpio4':4,'gpio5':5,'gpio6':6,'gpio7':7,'gpio8':8,'gpio9':9,'gpio10':10,'gpio11':11,'gpio12':12,'gpio13':13,'gpio14':14,'Switch one':15,'gpio16':16,'gpio17':17,'gpio18':18,'gpio19':19,'Relay two':20,'Relay three':21,'gpio22':22,'gpio23':23,'gpio24':24,'gpio25':25,'Relay one':26}
 
 class device_handler(debounce_handler):
     """Triggers on/off based on GPIO 'device' selected.
@@ -55,17 +55,22 @@ class device_handler(debounce_handler):
                 "gpio25":50025,
         	"gpio26":50026}
     """
-    TRIGGERS = {"kitchen light":50015}
+    TRIGGERS = {"Switch one":50015,
+                "Relay one":50026,
+                "Relay two":50020,
+                "Relay three":50021}
    
 
     def trigger(self,port,state):
-      print('port: %d , state: %s', port, state)
-      if state == True:
-        GPIO.setup(port, GPIO.OUT)
-        GPIO.output(port,GPIO.HIGH)
-      else:
-        GPIO.setup(port, GPIO.OUT)
-        GPIO.output(port,GPIO.LOW)
+        print('port: %d , state: %s', port, state)
+        if state == True:
+            GPIO.setup(port, GPIO.OUT)
+            GPIO.output(port,GPIO.HIGH)
+        
+        else:
+            GPIO.setup(port, GPIO.OUT)
+            GPIO.output(port,GPIO.LOW)
+
 
     def act(self, client_address, state, name):
         print "State", state, "on ", name, "from client @", client_address, "gpio port: ",gpio_ports[str(name)]
@@ -87,6 +92,7 @@ if __name__ == "__main__":
 
     # Loop and poll for incoming Echo requests
     logging.debug("Entering fauxmo polling loop")
+
     while True:
         try:
             # Allow time for a ctrl-c to stop the process
