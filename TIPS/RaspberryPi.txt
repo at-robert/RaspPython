@@ -27,9 +27,7 @@ git clone git@github.com:at-robert/RaspPython.git
 * To run ~/RaspPython/Scripts/up_git.sh and it will install the following packages 
 sudo apt-get install -y python-pip
 sudo apt-get install -y xfonts-wqy ttf-wqy-microhei ttf-wqy-zenhei
-sudo apt-get install -y samba samba-common-bin
-sudo apt-get install -y samba
-sudo apt-get install -y smbclient
+sudo apt-get install -y samba samba-common-bin smbclient 
 sudo apt-get install -y subversion
 sudo apt-get install -y ntfs-3g
 sudo apt-get install -y audacity
@@ -123,10 +121,13 @@ enable_uart=1
 force_turbo=1
 dtoverlay=pi3-miniuart-bt
 
+
 *To test minicom
 minicom -b 115200 -o -D /dev/ttyAMA0
 minicom -b 921600 -o -D /dev/ttyAMA0
 minicom -b 921600 -o -D /dev/ttyUSB0
+
+minicom -b 115200 -o -D /dev/ttyUSB0
 
 [STM32 VCP]
 minicom -b 115200 -o -D /dev/ttyACM0
