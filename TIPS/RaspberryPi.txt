@@ -121,10 +121,13 @@ enable_uart=1
 force_turbo=1
 dtoverlay=pi3-miniuart-bt
 
+
 *To test minicom
 minicom -b 115200 -o -D /dev/ttyAMA0
 minicom -b 921600 -o -D /dev/ttyAMA0
 minicom -b 921600 -o -D /dev/ttyUSB0
+
+minicom -b 115200 -o -D /dev/ttyUSB0
 
 [STM32 VCP]
 minicom -b 115200 -o -D /dev/ttyACM0
