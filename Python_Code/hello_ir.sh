@@ -53,7 +53,7 @@ irsend SEND_ONCE HiMEDIA KEY_ENTER
 sleep 6
 irsend SEND_ONCE HiMEDIA KEY_ENTER
 sleep 2
-irsend SEND_ONCE VIZIO_TV KEY_POWER
+#irsend SEND_ONCE VIZIO_TV KEY_POWER
 echo "Hello world by Robert end!!!"
 for file in $(find /media/pi/SANDISK/Music/MP3/ -type f -name "*.mp3");
 do

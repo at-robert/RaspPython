@@ -64,7 +64,7 @@ Here were the commands that I ran to generate a remote configuration file:
 sudo /etc/init.d/lirc stop
 
 # Create a new remote control configuration file (using /dev/lirc0) and save the output to ~/lircd.conf
-irrecord -d /dev/lirc0 ~/lircd_Sunbrite_TV.conf
+irrecord -d /dev/lirc0 ~/lircd_mtk8507_evk.conf
 
 
 # Make a backup of the original lircd.conf file
@@ -124,6 +124,7 @@ irsend SEND_ONCE VIZIO_TV KEY_POWER
 
 irsend SEND_ONCE VIZIO_TV KEY_VOLUMEUP
 irsend SEND_ONCE VIZIO_TV VOL_DWN
+irsend SEND_ONCE VIZIO_TV KEY_POWER
 
 irsend SEND_ONCE HiMEDIA KEY_POWER
 irsend SEND_ONCE HiMEDIA KEY_DOWN
