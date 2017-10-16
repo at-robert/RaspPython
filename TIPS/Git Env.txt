@@ -37,6 +37,7 @@ git clone https://github.com/at-robert/GitTips.git
 git clone https://github.com/at-robert/ATP_FCST.git
 git clone https://github.com/at-robert/LinuxScript.git
 git clone https://github.com/at-robert/RaspPython.git
+git clone https://github.com/at-robert/AndroidAlexa.git
 
 [TOPICS]
 * How to setup Github to ignore some certain file types which should not be uploaded. 

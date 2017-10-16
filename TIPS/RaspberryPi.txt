@@ -128,6 +128,8 @@ minicom -b 115200 -o -D /dev/ttyAMA0
 minicom -b 921600 -o -D /dev/ttyAMA0
 minicom -b 921600 -o -D /dev/ttyUSB0
 
+minicom -b 115200 -o -D /dev/ttyUSB0
+
 [STM32 VCP]
 minicom -b 115200 -o -D /dev/ttyACM0
 
