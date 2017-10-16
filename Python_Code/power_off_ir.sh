@@ -5,6 +5,13 @@ echo "RaspX IP = $HiMediaMacIP"
 
 sudo ssh pi@$HiMediaMacIP "sudo shutdown -h now"
 
+HiMediaMacAddr=B8:27:EB:C7:2C:1E
+HiMediaMacIP=$(echo "$password\n" | sudo -S nmap -sP 192.168.0.* | awk '/Nmap scan report for/{printf $5;}/MAC Address:/{print " => "$3;}' | grep -i "$HiMediaMacAddr" | sort)
+HiMediaMacIP=$(echo "$HiMediaMacIP" | sed 's/=>//g' | sed 's/B8:27:EB:C7:2C:1E//g' | sed 's/^[ \t]*//g' | sed 's/[ \t]*$//g')
+echo "RaspGA IP = $HiMediaMacIP"
+
+sudo ssh pi@$HiMediaMacIP "sudo shutdown -h now"
+
 echo "Stoping HiMedia !!!"
 irsend SEND_ONCE HiMEDIA KEY_POWER
 sleep 3
