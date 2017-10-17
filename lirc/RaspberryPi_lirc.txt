@@ -106,6 +106,7 @@ irsend LIST DB0204 ""
 irsend LIST VIZIO_TV ""
 irsend LIST TWN_TV ""
 irsend LIST SUNBRITE_TV ""
+irsend LIST MTK8507_EVK ""
 
 # Send the KEY_POWER command once
 irsend SEND_ONCE Dyson KEY_UP
