@@ -41,6 +41,7 @@ sudo apt-get install -y python-matplotlib
 sudo apt-get install -y python-scipy
 sudo apt-get install -y minicom
 sudo apt-get install -y python-smbus
+sudo apt-get install -y fswebcam
 sudo pip install SoundAnalyse
 
 sudo apt-get install -y nmap
@@ -400,3 +401,7 @@ cd {} : cd into the directory found by find
 git fs : This is short for git fetch & git status
 echo : echo an empty line, for readability
 \; : semicolon to run shell for each of the found directories instead of passing them all to one shell as arguments
+
+# To fetch files from Raspberry pi over SSH
+for example: 
+$ scp pi@192.168.0.145:~/webcam/2017-10-23_0248.jpg  .
