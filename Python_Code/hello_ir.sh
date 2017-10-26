@@ -1,20 +1,20 @@
 echo "Starting DB0204 !!!"
 irsend SEND_ONCE HiMEDIA KEY_POWER
-sleep 3
+sleep 5
 irsend SEND_ONCE DB0204 KEY_ENTER
-sleep 3
+sleep 5
 irsend SEND_ONCE DB0204 KEY_DOWN
-sleep 1
+sleep 2
 irsend SEND_ONCE DB0204 KEY_ENTER
-sleep 3
+sleep 5
 irsend SEND_ONCE DB0204 KEY_ENTER
-sleep 1
+sleep 2
 irsend SEND_ONCE DB0204 KEY_DOWN
-sleep 1
+sleep 2
 irsend SEND_ONCE DB0204 KEY_DOWN
-sleep 1
+sleep 2
 irsend SEND_ONCE DB0204 KEY_DOWN
-sleep 1
+sleep 2
 irsend SEND_ONCE DB0204 KEY_ENTER
 echo "Waiting for HiMedia !!!"
 sleep 40
