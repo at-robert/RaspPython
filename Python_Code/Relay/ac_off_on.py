@@ -20,8 +20,6 @@ def vizio_SB_Ac_off_on():
         print("GPIO37 OFF")
         time.sleep(3)
 	#GPIO.output(38,False)
-
-
 #----------------------------------------------------------------------
 if __name__ == "__main__":
 

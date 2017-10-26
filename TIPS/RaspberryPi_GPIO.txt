@@ -21,6 +21,7 @@ GPIO.output(8,True) ## Turn on GPIO pin 8
 
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BOARD)
+
 GPIO.setup(37, GPIO.OUT)
 GPIO.setup(38, GPIO.OUT)
 GPIO.setup(40, GPIO.OUT)
@@ -33,6 +34,8 @@ GPIO.output(37,True)
 GPIO.output(38,True)
 GPIO.output(40,True)
 
+
+
 [GPIO Input]
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BOARD)
@@ -41,3 +44,17 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setup(15, GPIO.IN)
 input = GPIO.input(15)
 print input
+
+
+首先先將 GPIO4 設定成可以用 sysfs 控制
+
+echo 37 > /sys/class/gpio/export
+設定 GPIO37 為輸出腳
+
+echo out > /sys/class/gpio/gpio37/direction
+設定 GPIO37 輸出值為 1 (0: 低電位, 1: 高電位)
+
+echo 1 > /sys/class/gpio/gpio37/value
+設定 GPIO4 輸出值為 0 (0: 低電位, 1: 高電位)
+
+echo 0 > /sys/class/gpio/gpio37/value
