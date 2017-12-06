@@ -404,4 +404,48 @@ echo : echo an empty line, for readability
 
 # To fetch files from Raspberry pi over SSH
 for example: 
-$ scp pi@192.168.0.145:~/webcam/2017-10-23_0248.jpg  .
+$ scp pi@192.168.0.103:~/webcam/2017-10-23_0248.jpg  .
+
+scp pi@192.168.0.103:~/webcam/*.jpg  .
+
+[A pack of software source code for Raspberry pi]
+https://github.com/raspberrypi/userland
+
+git clone https://github.com/raspberrypi/userland.git
+
+CMake installation
+https://www.libcinder.org/docs/guides/linux-notes/rpi3.html
+
+STEPS for starting
+STEP1: 
+git clone https://github.com/at-robert/userland.git
+
+STEP2: To install Cmake
+sudo apt-get install build-essential cmake pkg-config
+
+STEP3: To run buildme
+cd userland
+./buildme
+
+[Camera Module]
+Web: 
+https://yehnan.blogspot.tw/2013/05/raspberry-pi.html
+
+$ take a picture
+raspistill -o image.jpg -t 1000
+
+另外可利用指令raspivid進行錄影，如下：
+
+$ raspivid  -o video.h264 -t 20000
+
+-o指定輸出檔名，為H.264格式，-t指定錄製時間（單位為千分之一秒）。
+
+
+[PYTHON PICAMERA]
+web:
+https://www.raspberrypi.org/documentation/usage/camera/python/README.md
+
+sudo apt-get update
+sudo apt-get install python-picamera
+
+
