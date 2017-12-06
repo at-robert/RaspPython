@@ -431,6 +431,13 @@ cd userland
 Web: 
 https://yehnan.blogspot.tw/2013/05/raspberry-pi.html
 
+$ 
+sudo apt-get update 
+
+$
+sudo apt-get dist-upgrade
+
+
 $ take a picture
 raspistill -o image.jpg -t 1000
 
@@ -448,4 +455,35 @@ https://www.raspberrypi.org/documentation/usage/camera/python/README.md
 sudo apt-get update
 sudo apt-get install python-picamera
 
+* This will make the library available to the script. Now create an instance of the PiCamera class:
+import picamera
+camera = picamera.PiCamera()
+camera.capture('image.jpg')
 
+* You can use the stop_preview method to remove the preview overlay and restore the display:
+camera.start_preview()
+camera.stop_preview()
+
+* CAMERA SETTINGS
+You can change other camera configuration by editing property values, for example:
+camera.brightness = 70
+
+This will change the brightness setting from its default 50 to 70 (values between 0 and 100).
+Other settings are available. Here is a list with their default values:
+
+camera.sharpness = 0
+camera.contrast = 0
+camera.brightness = 50
+camera.saturation = 0
+camera.ISO = 0
+camera.video_stabilization = False
+camera.exposure_compensation = 0
+camera.exposure_mode = 'auto'
+camera.meter_mode = 'average'
+camera.awb_mode = 'auto'
+camera.image_effect = 'none'
+camera.color_effects = None
+camera.rotation = 0
+camera.hflip = False
+camera.vflip = False
+camera.crop = (0.0, 0.0, 1.0, 1.0)
