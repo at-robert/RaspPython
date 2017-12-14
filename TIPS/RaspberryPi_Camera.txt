@@ -28,8 +28,11 @@ sudo apt-get install python-picamera
 
 * This will make the library available to the script. Now create an instance of the PiCamera class:
 import picamera
+import datetime
+
+dt = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
 camera = picamera.PiCamera()
-camera.capture('image.jpg')
+camera.capture('~/webcam/image'+ dt + '.jpg')
 
 * You can use the stop_preview method to remove the preview overlay and restore the display:
 camera.start_preview()

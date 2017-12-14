@@ -1,5 +1,6 @@
 import picamera
 import sys
+import time
 
 
 
@@ -11,5 +12,11 @@ if __name__ == "__main__":
 
     camera = picamera.PiCamera()
     camera.start_preview()
-    s = raw_input("Camera Preview - enter any key to stop")
+
+    if(sys.argv[1] == 'd'):
+        time.sleep(3)
+        print("delay 3 seconds")
+    else:
+        s = raw_input("Camera Preview - enter any key to stop")
+
     camera.stop_preview()
