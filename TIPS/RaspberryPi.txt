@@ -45,6 +45,9 @@ sudo apt-get install -y fswebcam
 sudo pip install SoundAnalyse
 
 sudo apt-get install -y nmap
+sudo apt-get install -y python-pandas
+
+sudo apt-get install python-visual
 
 [STEP 2]
 sudo nano /etc/samba/smb.conf
@@ -443,7 +446,7 @@ raspistill -o image.jpg -t 1000
 
 另外可利用指令raspivid進行錄影，如下：
 
-$ raspivid  -o video.h264 -t 20000
+$ raspivid -o video.h264 -t 20000
 
 -o指定輸出檔名，為H.264格式，-t指定錄製時間（單位為千分之一秒）。
 

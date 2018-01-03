@@ -13,9 +13,10 @@ if __name__ == "__main__":
     camera = picamera.PiCamera()
     camera.start_preview()
 
-    if(sys.argv[1] == 'd') & (len(sys.argv) > 1) :
-        time.sleep(3)
-        print("delay 3 seconds")
+    if(len(sys.argv) > 1):
+        if(sys.argv[1] == 'd'):
+            time.sleep(3)
+            print("delay 3 seconds")
     else:
         s = raw_input("Camera Preview - enter any key to stop")
 
