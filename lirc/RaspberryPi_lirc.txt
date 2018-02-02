@@ -18,7 +18,7 @@ dtoverlay=lirc-rpi,gpio_in_pin=23,gpio_out_pin=18
 
 3. Configure the hardware file.
 sudo nano /etc/lirc/hardware.conf
-(sudo cp ~/Python_Code/IR/hardware.conf /etc/lirc/hardware.conf)
+(sudo cp ~/RaspPython/Python_Code/IR/hardware.conf /etc/lirc/hardware.conf)
 
 Erase the contents and paste this file
 ########################################################
@@ -50,7 +50,11 @@ LIRCMD_CONF=""
 
 4. Run the command and press remote buttons at the sensor and you should get some feedback
 sudo /etc/init.d/lirc stop 
+
+NOTE: ('sudo lircd -d /dev/lirc0' instead of 'mode2 -d /dev/lirc0' on Ubuntu Mate)
 mode2 -d /dev/lirc0
+
+sudo lircd -d /dev/lirc0
 
 5.
 You’re going to need to either find an existing LIRC config file for your remote control or use your IR receiver to generate a new LIRC config file. 
@@ -64,7 +68,7 @@ Here were the commands that I ran to generate a remote configuration file:
 sudo /etc/init.d/lirc stop
 
 # Create a new remote control configuration file (using /dev/lirc0) and save the output to ~/lircd.conf
-irrecord -d /dev/lirc0 ~/lircd_mtk8507_evk.conf
+irrecord -d /dev/lirc0 ~/lircd_mtk8507_test.conf
 
 
 # Make a backup of the original lircd.conf file
@@ -81,6 +85,9 @@ sudo /etc/init.d/lirc stop
 sudo cp ~/RaspPython/Python_Code/lircd.conf /etc/lirc/lircd.conf
 sudo /etc/init.d/lirc start
 
+
+NOTE: (Ubuntu Mate needs to run this command)
+sudo lircd -d /dev/lirc0
 
 6. Dyson link
 
