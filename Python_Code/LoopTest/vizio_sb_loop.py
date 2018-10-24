@@ -12,28 +12,27 @@ delay_offset = 3
 
 #----------------------------------------------------------------------
 def _ac_power_cycling():
-	GPIO.output(37,True)
-	print ("AC OFF!!")
-	time.sleep(5)
-	GPIO.output(37,False)
-	print ("AC ON!!")
-	time.sleep(15)
-	os.system('irsend SEND_ONCE VIZIO_SB KEY_POWER')
-	print ("Send IR Power Key!!")
-	time.sleep(10)
+    GPIO.output(37,True)
+    print ("AC OFF!!")
+    time.sleep(5)
+    GPIO.output(37,False)
+    print ("AC ON!!")
+    time.sleep(15)
+    os.system('irsend SEND_ONCE VIZIO_SB KEY_POWER')
+    print ("Send IR Power Key!!")
+    time.sleep(10)
 
 #----------------------------------------------------------------------
 def source_switch_time(t):
-	random_t = delay_offset+random.randint(0,3)+t
-	print ("Random Time = %d"%(random_t))
-	time.sleep(random_t)
+    random_t = delay_offset+random.randint(0,3)+t
+    print ("Random Time = %d"%(random_t))
+    time.sleep(random_t)
 
 
 #----------------------------------------------------------------------
 def vizio_SB_2820_Loop():
     count = 0
     print ("Start vizio sound bar 2820 loop test")
-
     while 1:
         time.sleep(7)
         os.system('irsend SEND_ONCE VIZIO_SB KEY_INPUT_AUX_1')
@@ -51,7 +50,7 @@ def vizio_SB_2820_Loop():
 #----------------------------------------------------------------------
 def vizio_SB_3251_Loop():
     count = 0
-    print ("Start vizio sound bar 3251 loop test with AC power cycling")
+    print ("Start vizio sound bar 3251 loop test")
 
     while 1:
         source_switch_time(0)
@@ -64,20 +63,20 @@ def vizio_SB_3251_Loop():
         os.system('irsend SEND_ONCE VIZIO_SB KEY_INPUT_HDMI_ARC_6')
         print ("Switch to ARC")
         if(count == 0):
-            print "Wait for HDMI-ARC communication"
+            print ("Wait for HDMI-ARC communication")
             time.sleep(7)
         source_switch_time(0)
         os.system('irsend SEND_ONCE VIZIO_SB KEY_INPUT_USB_7')
-		print ("Switch to USB")	
+        print ("Switch to USB")
         source_switch_time(7)
         os.system('irsend SEND_ONCE VIZIO_SB KEY_INPUT_BLUETOOTH')
-		print ("Switch to BT")
+        print ("Switch to BT")
         source_switch_time(5)
         os.system('irsend SEND_ONCE VIZIO_SB KEY_PLAYPAUSE')
-		print ("Press Play_Pause")
-		source_switch_time(0)
+        print ("Press Play_Pause")
+        source_switch_time(0)
         count = count + 1
-        print "LOOP COUNT = %d" %(count)
+        print ("LOOP COUNT = %d" %(count))
 
 #----------------------------------------------------------------------
 def vizio_SB_3251p_Loop():
@@ -85,29 +84,29 @@ def vizio_SB_3251p_Loop():
     print ("Start vizio sound bar 3251 loop test with AC power cycling")
 
     while 1:
-		_ac_power_cycling()
+        _ac_power_cycling()
         source_switch_time(0)
         os.system('irsend SEND_ONCE VIZIO_SB KEY_INPUT_AUX_1')
-		print ("Switch to AUX")
+        print ("Switch to AUX")
         source_switch_time(0)
         os.system('irsend SEND_ONCE VIZIO_SB KEY_INPUT_OPTICAL_4')
-		print ("Switch to OPT")
+        print ("Switch to OPT")
         source_switch_time(0)
         os.system('irsend SEND_ONCE VIZIO_SB KEY_INPUT_HDMI_ARC_6')
-		print ("Switch to ARC")
+        print ("Switch to ARC")
         if(count == 0):
-            print "Wait for HDMI-ARC communication"
+            print ("Wait for HDMI-ARC communication")
             time.sleep(7)
         source_switch_time(0)
         os.system('irsend SEND_ONCE VIZIO_SB KEY_INPUT_USB_7')
-		print ("Switch to USB")	
+        print ("Switch to USB")
         source_switch_time(7)
         os.system('irsend SEND_ONCE VIZIO_SB KEY_INPUT_BLUETOOTH')
-		print ("Switch to BT")
+        print ("Switch to BT")
         source_switch_time(5)
         os.system('irsend SEND_ONCE VIZIO_SB KEY_PLAYPAUSE')
-		print ("Press Play_Pause")
-		source_switch_time(0)
+        print ("Press Play_Pause")
+        source_switch_time(0)
         count = count + 1
         print "LOOP COUNT = %d" %(count)
 
@@ -118,11 +117,9 @@ if len(sys.argv) < 2:
     print 'no argument; Usage: vizio_sb_loop.py 3251'
     sys.exit()
 
-    if(sys.argv[1] == '3251'):
-        vizio_SB_3251_Loop()
-	elif(sys.argv[1] == '3251p'):
-		vizio_SB_3251p_Loop()
-    else:
-        vizio_SB_2820_Loop()
-    
-
+if(sys.argv[1] == '3251'):
+    vizio_SB_3251_Loop()
+elif(sys.argv[1] == '3251p'):
+    vizio_SB_3251p_Loop()
+else:
+    vizio_SB_2820_Loop()
