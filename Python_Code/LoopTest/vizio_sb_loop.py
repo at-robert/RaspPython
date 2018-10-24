@@ -108,18 +108,18 @@ def vizio_SB_3251p_Loop():
         print ("Press Play_Pause")
         source_switch_time(0)
         count = count + 1
-        print "LOOP COUNT = %d" %(count)
+        print ("LOOP COUNT = %d" %(count))
 
 #----------------------------------------------------------------------
 if __name__ == "__main__":
 
-if len(sys.argv) < 2:
-    print 'no argument; Usage: vizio_sb_loop.py 3251'
-    sys.exit()
+    if len(sys.argv) < 2:
+        print ('no argument; Usage: vizio_sb_loop.py 3251')
+        sys.exit()
 
-if(sys.argv[1] == '3251'):
-    vizio_SB_3251_Loop()
-elif(sys.argv[1] == '3251p'):
-    vizio_SB_3251p_Loop()
-else:
-    vizio_SB_2820_Loop()
+    if(sys.argv[1] == '3251'):
+        vizio_SB_3251_Loop()
+    elif(sys.argv[1] == '3251p'):
+        vizio_SB_3251p_Loop()
+    else:
+        vizio_SB_2820_Loop()
