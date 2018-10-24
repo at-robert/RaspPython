@@ -23,17 +23,17 @@ def vizio_SB_3251_Loop():
     print "Start vizio sound bar 3251 Power On/Off loop test"
 
     while 1:
-	GPIO.output(37,False)
-	print ("AC ON!!")
+        GPIO.output(37,False)
+        print ("AC ON!!")
         time.sleep(15)
         os.system('irsend SEND_ONCE VIZIO_SB KEY_POWER')
-	print ("Send IR Power Key!!")
+        print ("Send IR Power Key!!")
         count = count + 1
         print "LOOP COUNT = %d" %(count)
-	time.sleep(15)
-	GPIO.output(37,True)
-	print ("AC OFF!!")
-	time.sleep(10)
+        time.sleep(15)
+        GPIO.output(37,True)
+        print ("AC OFF!!")
+        time.sleep(10)
 
 #----------------------------------------------------------------------
 if __name__ == "__main__":
