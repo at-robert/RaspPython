@@ -117,6 +117,9 @@ if __name__ == "__main__":
         print ('no argument; Usage: vizio_sb_loop.py 3251')
         sys.exit()
 
+    GPIO.setmode(GPIO.BOARD)
+    GPIO.setup(37, GPIO.OUT)
+
     if(sys.argv[1] == '3251'):
         vizio_SB_3251_Loop()
     elif(sys.argv[1] == '3251p'):
