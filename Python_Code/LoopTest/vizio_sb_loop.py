@@ -107,6 +107,9 @@ def vizio_SB_3251p_Loop():
         os.system('irsend SEND_ONCE VIZIO_SB KEY_PLAYPAUSE')
         print ("Press Play_Pause")
         source_switch_time(0)
+        os.system('irsend SEND_ONCE VIZIO_SB KEY_INPUT_OPTICAL_4')
+        print ("Switch to OPT")
+        source_switch_time(0)
         count = count + 1
         print ("LOOP COUNT = %d" %(count))
 
