@@ -26,5 +26,7 @@ irsend SEND_ONCE DB0204 KEY_POWER
 sleep 3
 irsend SEND_ONCE VIZIO_TV KEY_POWER
 sleep 3
+irsend SEND_ONCE TWN_TV KEY_POWER
+sleep 3
 echo "All devices are power down now!!!"
 sudo shutdown -h now
