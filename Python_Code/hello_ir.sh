@@ -57,9 +57,9 @@ sleep 2
 # To display HiMEDIA for a while
 sleep 2
 irsend SEND_ONCE VIZIO_TV HDMI
-# sleep 5
-# irsend SEND_ONCE VIZIO_TV AV
-# sleep 2
+sleep 5
+irsend SEND_ONCE VIZIO_TV AV
+sleep 2
 # To switch back to DB0204
 echo "Hello world by Robert end!!!"
 for file in $(find /media/pi/SANDISK/Music/MP3/ -type f -name "*.mp3");
