@@ -27,9 +27,6 @@ def source_switch_time(t):
     print ("Random Time = %d"%(random_t))
     time.sleep(random_t)
 
-
-
-
 #----------------------------------------------------------------------
 def msd92q_Loop(_pwr_test):
     count = 0
