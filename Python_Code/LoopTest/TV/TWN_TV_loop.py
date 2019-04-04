@@ -49,7 +49,13 @@ def msd92q_Loop(_pwr_test):
         source_switch_time(5)
         os.system('irsend SEND_ONCE TWN_TV KEY_TV')
         print ("Switch to TV")
-        source_switch_time(0)
+        source_switch_time(5)
+        os.system('irsend SEND_ONCE TWN_TV KEY_POWER')
+        print ("DC off")
+        source_switch_time(10)
+        os.system('irsend SEND_ONCE TWN_TV KEY_POWER')
+        print ("DC on")
+        source_switch_time(6)
         count = count + 1
         print ("LOOP COUNT = %d" %(count))
 
@@ -64,6 +70,9 @@ if __name__ == "__main__":
     GPIO.setup(37, GPIO.OUT)
 
     if(sys.argv[1] == 'msd92q'):
-        msd92q_Loop(0)
+        msd92q_Loop(1)
+        print(" AC Off/On test is on")
     else:
         msd92q_Loop(0)
+        print(" AC Off/On test is off")
+
