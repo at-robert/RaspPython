@@ -7,25 +7,27 @@ import time
 import RPi.GPIO as GPIO
 import random
 
+# To setup basic delay time offset
 delay_offset = 3
 
-#----------------------------------------------------------------------
-def _ac_power_cycling():
-    GPIO.output(37,True)
-    print ("AC OFF!!")
-    time.sleep(5)
-    GPIO.output(37,False)
-    print ("AC ON!!")
-    time.sleep(15)
-    os.system('irsend SEND_ONCE TWN_TV KEY_POWER')
-    print ("Send IR Power Key!!")
-    time.sleep(10)
 
 #----------------------------------------------------------------------
 def source_switch_time(t):
     random_t = delay_offset+random.randint(0,3)+t
     print ("Random Time = %d"%(random_t))
     time.sleep(random_t)
+
+#----------------------------------------------------------------------
+def _ac_power_cycling():
+    GPIO.output(37,True)
+    print ("AC OFF!!")
+    source_switch_time(5)
+    GPIO.output(37,False)
+    print ("AC ON!!")
+    source_switch_time(15)
+    os.system('irsend SEND_ONCE TWN_TV KEY_POWER')
+    print ("Send IR Power Key!!")
+    source_switch_time(10)
 
 #----------------------------------------------------------------------
 def msd92q_Loop(_pwr_test):
@@ -40,6 +42,12 @@ def msd92q_Loop(_pwr_test):
         source_switch_time(5)
         os.system('irsend SEND_ONCE TWN_TV KEY_HDMI')
         print ("Switch to HDMI")
+        source_switch_time(5)
+        os.system('irsend SEND_ONCE TWN_TV KEY_HDMI')
+        print ("Switch to HDMI2")
+        source_switch_time(5)
+        os.system('irsend SEND_ONCE TWN_TV KEY_HDMI')
+        print ("Switch to HDMI3")
         source_switch_time(5)
         os.system('irsend SEND_ONCE TWN_TV KEY_AV')
         print ("Switch to AV")
