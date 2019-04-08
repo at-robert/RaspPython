@@ -23,4 +23,7 @@ while True:
     # Convert raw data to NumPy array
     samps = numpy.fromstring(rawsamps, dtype=numpy.int16)
     # Show the volume and pitch
+    vol = analyse.loudness(samps)
+    if (vol > -10):
+        print ("Sound detect \n")
     print analyse.loudness(samps), analyse.musical_detect_pitch(samps)
