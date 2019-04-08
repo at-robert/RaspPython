@@ -8,8 +8,18 @@ import RPi.GPIO as GPIO
 import random
 
 # To setup basic delay time offset
-delay_offset = 3
+delay_offset = 0
 
+#----------------------------------------------------------------------
+def _dc_power_cycling(count):
+    for i in range(0,count):
+        source_switch_time(5)
+        os.system('irsend SEND_ONCE TWN_TV KEY_POWER')
+        print ("DC off")
+        source_switch_time(10)
+        os.system('irsend SEND_ONCE TWN_TV KEY_POWER')
+        print ("DC on")
+        print(" DC loop in {}".format(i))    
 
 #----------------------------------------------------------------------
 def source_switch_time(t):
@@ -21,10 +31,10 @@ def source_switch_time(t):
 def _ac_power_cycling():
     GPIO.output(37,True)
     print ("AC OFF!!")
-    source_switch_time(5)
+    source_switch_time(2)
     GPIO.output(37,False)
     print ("AC ON!!")
-    source_switch_time(15)
+    source_switch_time(5)
     os.system('irsend SEND_ONCE TWN_TV KEY_POWER')
     print ("Send IR Power Key!!")
     source_switch_time(10)
@@ -66,6 +76,8 @@ def msd92q_Loop(_pwr_test):
         source_switch_time(6)
         count = count + 1
         print ("LOOP COUNT = %d" %(count))
+
+        _dc_power_cycling(5)
 
 #----------------------------------------------------------------------
 if __name__ == "__main__":
