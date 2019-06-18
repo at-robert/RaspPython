@@ -52,7 +52,7 @@ def msd92q_Loop(_pwr_test):
         source_switch_time(5)
         os.system('irsend SEND_ONCE TWN_TV KEY_MEDIA')
         print ("Switch to MMP")
-        source_switch_time(10)
+        source_switch_time(5)
         os.system('irsend SEND_ONCE TWN_TV KEY_EXIT')
         print ("Switch to EXIT")
         source_switch_time(5)
