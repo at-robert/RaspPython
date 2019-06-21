@@ -5,3 +5,10 @@
 # @python /home/pi/RaspPython/Python_Code/Flask/cmd.py
 # @python /home/pi/RaspPython/Python_Code/MP3/mp3_play.py /media/pi/SANDISK/Music/MP3/
 @sh /home/pi/RaspPython/Scripts/up_git.sh
+
+# To xset s off disable the screen saver, 
+# xset -dpms disables the DPMS (Display Power Management Signaling) 
+# and xset s noblank tells to X server to not blank the video device.
+@xset s off
+@xset -dpms 
+@xset s noblank
