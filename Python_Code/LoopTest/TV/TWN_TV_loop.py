@@ -73,11 +73,21 @@ def msd92q_Loop(_pwr_test):
         source_switch_time(10)
         os.system('irsend SEND_ONCE TWN_TV KEY_POWER')
         print ("DC on")
-        source_switch_time(6)
+	source_switch_time(6)
+        os.system('irsend SEND_ONCE TWN_TV KEY_HDMI')
+        print ("Switch to HDMI3")
+        source_switch_time(5)
+        os.system('irsend SEND_ONCE TWN_TV KEY_POWER')
+        print ("DC off")
+        source_switch_time(10)
+        os.system('irsend SEND_ONCE TWN_TV KEY_POWER')
+        print ("DC on")
+	source_switch_time(6)
+        
         count = count + 1
         print ("LOOP COUNT = %d" %(count))
 
-        _dc_power_cycling(5)
+        #_dc_power_cycling(5)
 
 #----------------------------------------------------------------------
 if __name__ == "__main__":
