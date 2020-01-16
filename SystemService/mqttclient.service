@@ -1,0 +1,8 @@
+[Service]
+Type=simple
+User=pi
+ExecStart=/usr/bin/python /home/pi/GoogleAssistIOT/mqtt_projects/mqtt_client_demo.py
+
+
+[Install]
+WantedBy=multi-user.target

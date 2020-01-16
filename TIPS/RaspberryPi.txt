@@ -105,6 +105,13 @@ sudo /etc/init.d/lirc start
 [STEP 7] (Optional when you need to setup auto start items)
 sudo cp ~/RaspPython/Python_Code/autostart ~/.config/lxsession/LXDE-pi/autostart
 
+(Optionally, when you want to start mqtt client program when booting)
+sudo pip install -y paho-mqtt
+sudo cp ~/RaspPython/SystemService/mqttclient.service /etc/systemd/system/
+
+
+(Put the following command into up_git.sh)
+sudo systemctl start mqttcli
 
 * To login Raspberry 3 over terminal
 #ssh pi@192.168.0.100
